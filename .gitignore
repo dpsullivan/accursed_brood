@@ -1,0 +1,42 @@
+# PS1 ROMs, disc images, patches, and emulator saves (CRITICAL)
+*.bin
+*.cue
+*.iso
+*.img
+*.chd
+*.pbp
+*.mdf
+*.mds
+*.ppf
+*.ips
+*.xdelta
+*.mcr
+*.srm
+*.sav
+
+# Local workspace, test outputs, and scratch notes
+.scratch/
+docs/agents/
+_local/
+roms/
+output/
+builds/
+*spoiler*.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS & Editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
