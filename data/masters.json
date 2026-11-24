@@ -1,0 +1,381 @@
+{
+  "schema_version": 1,
+  "project": "Accursed Brood",
+  "_comment": "Curated Master Kits for US Breath of Fire III (SLUS-00422). All skill IDs verified against GAME.EMI AbilityObject (t=3 examine-alt IDs, disjoint from vanilla & archetype level-up skills and crash blacklist). All max_msg_bytes verified against AFLDKWA.EMI (0x18E2) and FIRST.EMI (0x3C8E2).",
+  "backhand_skill_id": 165,
+  "masters": [
+    {
+      "index": 0,
+      "name": "Bunyan",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 52,
+      "vanilla_stats": { "hp": 2, "ap": -2, "pwr": 2, "dfn": 1, "agi": 0, "int": -3 }
+    },
+    {
+      "index": 1,
+      "name": "Mygas",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 43,
+      "vanilla_stats": { "hp": 0, "ap": 1, "pwr": -1, "dfn": -1, "agi": 0, "int": 2 }
+    },
+    {
+      "index": 2,
+      "name": "Yggdrasil",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 69,
+      "vanilla_stats": { "hp": -1, "ap": 1, "pwr": -2, "dfn": 1, "agi": 0, "int": 2 }
+    },
+    {
+      "index": 3,
+      "name": "D'lonzo",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 54,
+      "vanilla_stats": { "hp": -1, "ap": -2, "pwr": 1, "dfn": 0, "agi": 1, "int": 0 }
+    },
+    {
+      "index": 4,
+      "name": "Fahl",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 52,
+      "vanilla_stats": { "hp": 4, "ap": 0, "pwr": 1, "dfn": 3, "agi": -3, "int": -3 }
+    },
+    {
+      "index": 5,
+      "name": "Durandal",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 22,
+      "vanilla_stats": { "hp": 0, "ap": 0, "pwr": 0, "dfn": 0, "agi": 0, "int": 0 }
+    },
+    {
+      "index": 6,
+      "name": "Giotto",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 77,
+      "vanilla_stats": { "hp": 4, "ap": 3, "pwr": -1, "dfn": -1, "agi": -1, "int": -1 }
+    },
+    {
+      "index": 7,
+      "name": "Hondara",
+      "restricted": false,
+      "allow_backhand": false,
+      "max_msg_bytes": 47,
+      "vanilla_stats": { "hp": 0, "ap": 1, "pwr": -2, "dfn": 0, "agi": 0, "int": 1 }
+    },
+    {
+      "index": 8,
+      "name": "Emitai",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 43,
+      "vanilla_stats": { "hp": 0, "ap": 4, "pwr": -2, "dfn": -2, "agi": 0, "int": 4 }
+    },
+    {
+      "index": 9,
+      "name": "Deis",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 61,
+      "vanilla_stats": { "hp": -3, "ap": 3, "pwr": 1, "dfn": -3, "agi": 1, "int": 3 }
+    },
+    {
+      "index": 10,
+      "name": "Hachio",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 63,
+      "vanilla_stats": { "hp": 2, "ap": -2, "pwr": 2, "dfn": 1, "agi": -1, "int": -1 }
+    },
+    {
+      "index": 11,
+      "name": "Bais",
+      "restricted": true,
+      "allow_backhand": false,
+      "max_msg_bytes": 12,
+      "vanilla_stats": { "hp": 0, "ap": 0, "pwr": 1, "dfn": 0, "agi": 0, "int": 0 }
+    },
+    {
+      "index": 12,
+      "name": "Lang",
+      "restricted": true,
+      "allow_backhand": false,
+      "max_msg_bytes": 12,
+      "vanilla_stats": { "hp": 0, "ap": 0, "pwr": 0, "dfn": 1, "agi": 0, "int": 0 }
+    },
+    {
+      "index": 13,
+      "name": "Lee",
+      "restricted": true,
+      "allow_backhand": false,
+      "max_msg_bytes": 12,
+      "vanilla_stats": { "hp": 0, "ap": 0, "pwr": 0, "dfn": 0, "agi": 0, "int": 1 }
+    },
+    {
+      "index": 14,
+      "name": "Wynn",
+      "restricted": true,
+      "allow_backhand": false,
+      "max_msg_bytes": 12,
+      "vanilla_stats": { "hp": 1, "ap": 0, "pwr": 0, "dfn": 0, "agi": 0, "int": 0 }
+    },
+    {
+      "index": 15,
+      "name": "Ladon",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 61,
+      "vanilla_stats": { "hp": -6, "ap": -6, "pwr": 2, "dfn": 2, "agi": 1, "int": 2 }
+    },
+    {
+      "index": 16,
+      "name": "Meryleep",
+      "restricted": false,
+      "allow_backhand": true,
+      "max_msg_bytes": 57,
+      "vanilla_stats": { "hp": -1, "ap": 0, "pwr": -1, "dfn": -1, "agi": 2, "int": 0 }
+    }
+  ],
+  "kits": [
+    {
+      "id": "woodsman_brawler",
+      "name": "Woodsman Brawler",
+      "theme": "Physical Bruiser",
+      "description": "Heavy frontline power and vitality at the cost of magic reserves.",
+      "stats": { "hp": 2, "ap": -2, "pwr": 2, "dfn": 1, "agi": 0, "int": -3 },
+      "skills": [
+        { "level": 2, "skill_id": 170, "name": "Risky Blow" },
+        { "level": 5, "skill_id": 39, "name": "Focus" },
+        { "level": 8, "skill_id": 3, "name": "Super Combo" },
+        { "level": 11, "skill_id": 20, "name": "Disembowel" }
+      ]
+    },
+    {
+      "id": "iron_bulwark",
+      "name": "Iron Bulwark",
+      "theme": "Fortress Tank",
+      "description": "Towering HP and Defense training built for counter-striking tanks.",
+      "stats": { "hp": 4, "ap": 0, "pwr": 1, "dfn": 3, "agi": -3, "int": -3 },
+      "skills": [
+        { "level": 2, "skill_id": 15, "name": "Charge" },
+        { "level": 4, "skill_id": 26, "name": "Counter" },
+        { "level": 7, "skill_id": 153, "name": "Resist" },
+        { "level": 10, "skill_id": 185, "name": "Shield" }
+      ]
+    },
+    {
+      "id": "arcane_sage",
+      "name": "Arcane Sage",
+      "theme": "Elemental Caster",
+      "description": "Focused AP and Intelligence growth with AP-sustaining spellcraft.",
+      "stats": { "hp": 0, "ap": 3, "pwr": -2, "dfn": -2, "agi": 0, "int": 4 },
+      "skills": [
+        { "level": 2, "skill_id": 163, "name": "Meditation" },
+        { "level": 5, "skill_id": 172, "name": "Magic Ball" },
+        { "level": 8, "skill_id": 40, "name": "Enlighten" },
+        { "level": 11, "skill_id": 201, "name": "Myollnir" }
+      ]
+    },
+    {
+      "id": "storm_archmage",
+      "name": "Storm Archmage",
+      "theme": "High Sorcerer",
+      "description": "Glass-cannon archmage offering top-tier elemental nukes and Celerity.",
+      "stats": { "hp": -3, "ap": 3, "pwr": 1, "dfn": -3, "agi": 1, "int": 3 },
+      "skills": [
+        { "level": 2, "skill_id": 195, "name": "Inferno" },
+        { "level": 5, "skill_id": 198, "name": "Blizzard" },
+        { "level": 8, "skill_id": 203, "name": "Typhoon" },
+        { "level": 12, "skill_id": 62, "name": "Celerity" }
+      ]
+    },
+    {
+      "id": "shadow_blade",
+      "name": "Shadow Blade",
+      "theme": "Swift Assassin",
+      "description": "Compact agility-focused training paired with Shadowwalk and burst strikes.",
+      "stats": { "hp": -1, "ap": 0, "pwr": 1, "dfn": 0, "agi": 2, "int": 0 },
+      "skills": [
+        { "level": 2, "skill_id": 158, "name": "Charm" },
+        { "level": 5, "skill_id": 171, "name": "Shadowwalk" },
+        { "level": 8, "skill_id": 38, "name": "War Shout" },
+        { "level": 11, "skill_id": 12, "name": "Blitz" }
+      ]
+    },
+    {
+      "id": "duelist_rogue",
+      "name": "Duelist Rogue",
+      "theme": "Trickster & Backhand",
+      "description": "Nimble fencer teaching Backhand, Feign Swing, and Steal.",
+      "stats": { "hp": 0, "ap": -2, "pwr": 1, "dfn": 0, "agi": 1, "int": 0 },
+      "skills": [
+        { "level": 1, "skill_id": 10, "name": "Unmotivate" },
+        { "level": 3, "skill_id": 164, "name": "Feign Swing" },
+        { "level": 5, "skill_id": 165, "name": "Backhand" },
+        { "level": 8, "skill_id": 216, "name": "Steal" }
+      ]
+    },
+    {
+      "id": "holy_cleric",
+      "name": "Holy Cleric",
+      "theme": "Exorcist & Healer",
+      "description": "Clean clerical AP and INT bonuses backed by party restoration and exorcism.",
+      "stats": { "hp": 0, "ap": 2, "pwr": -2, "dfn": 0, "agi": 0, "int": 1 },
+      "skills": [
+        { "level": 2, "skill_id": 179, "name": "Purify" },
+        { "level": 5, "skill_id": 207, "name": "Kyrie" },
+        { "level": 8, "skill_id": 177, "name": "Vitalize" },
+        { "level": 11, "skill_id": 169, "name": "Benediction" }
+      ]
+    },
+    {
+      "id": "grove_warden",
+      "name": "Grove Warden",
+      "theme": "Nature Support",
+      "description": "Defensive mystic blending ward magic, Sanctuary, and healing.",
+      "stats": { "hp": -1, "ap": 2, "pwr": -2, "dfn": 2, "agi": 0, "int": 2 },
+      "skills": [
+        { "level": 2, "skill_id": 58, "name": "Sanctuary" },
+        { "level": 5, "skill_id": 36, "name": "Recall" },
+        { "level": 8, "skill_id": 188, "name": "Barrier" },
+        { "level": 10, "skill_id": 176, "name": "Restore" }
+      ]
+    },
+    {
+      "id": "dragon_ascetic",
+      "name": "Dragon Ascetic",
+      "theme": "Draconic Discipline",
+      "description": "Demanding HP/AP sacrifice rewarded with all-around combat stats and Aura.",
+      "stats": { "hp": -5, "ap": -5, "pwr": 2, "dfn": 2, "agi": 1, "int": 2 },
+      "skills": [
+        { "level": 3, "skill_id": 42, "name": "Mind's Eye" },
+        { "level": 5, "skill_id": 156, "name": "Holy Strike" },
+        { "level": 7, "skill_id": 43, "name": "WardOfLight" },
+        { "level": 10, "skill_id": 19, "name": "Aura" }
+      ]
+    },
+    {
+      "id": "gladiator_chef",
+      "name": "Gladiator Chef",
+      "theme": "Relentless Striker",
+      "description": "Aggressive physical mastery packing multi-hit strikes and Demonbane.",
+      "stats": { "hp": 2, "ap": -2, "pwr": 3, "dfn": 1, "agi": -1, "int": -2 },
+      "skills": [
+        { "level": 2, "skill_id": 154, "name": "Mighty Chop" },
+        { "level": 4, "skill_id": 119, "name": "Double Blow" },
+        { "level": 7, "skill_id": 157, "name": "Demonbane" },
+        { "level": 10, "skill_id": 141, "name": "Triple Blow" }
+      ]
+    },
+    {
+      "id": "river_gambler",
+      "name": "River Gambler",
+      "theme": "Vitality Wildcard",
+      "description": "Massive HP and AP pool growth paired with high-risk gambit techniques.",
+      "stats": { "hp": 4, "ap": 3, "pwr": -1, "dfn": -1, "agi": -1, "int": -1 },
+      "skills": [
+        { "level": 2, "skill_id": 140, "name": "Trump" },
+        { "level": 5, "skill_id": 41, "name": "Berserk" },
+        { "level": 8, "skill_id": 167, "name": "Last Resort" },
+        { "level": 10, "skill_id": 166, "name": "Monopolize" }
+      ]
+    },
+    {
+      "id": "spellblade_adept",
+      "name": "Spellblade Adept",
+      "theme": "Elemental Martial",
+      "description": "Compact hybrid PWR/INT discipline built around elemental weapon strikes.",
+      "stats": { "hp": -1, "ap": 0, "pwr": 1, "dfn": 0, "agi": 0, "int": 1 },
+      "skills": [
+        { "level": 2, "skill_id": 29, "name": "Wind Strike" },
+        { "level": 4, "skill_id": 49, "name": "Frost Strike" },
+        { "level": 7, "skill_id": 4, "name": "ThundrStrike" },
+        { "level": 10, "skill_id": 6, "name": "Mind Sword" }
+      ]
+    },
+    {
+      "id": "hex_occultist",
+      "name": "Hex Occultist",
+      "theme": "Debuff & Dark Arts",
+      "description": "Fast dark-magic specialist crippling foes with status and HP drain.",
+      "stats": { "hp": -1, "ap": 2, "pwr": -1, "dfn": -1, "agi": 1, "int": 2 },
+      "skills": [
+        { "level": 2, "skill_id": 7, "name": "Mind Flay" },
+        { "level": 4, "skill_id": 44, "name": "Evil Eye" },
+        { "level": 7, "skill_id": 55, "name": "Ebonfire" },
+        { "level": 10, "skill_id": 183, "name": "Drain" }
+      ]
+    },
+    {
+      "id": "tempest_monk",
+      "name": "Tempest Monk",
+      "theme": "Agile Martial Artist",
+      "description": "Compact HP and Agility specialist teaching rapid aerial and spirit arts.",
+      "stats": { "hp": 1, "ap": -1, "pwr": 0, "dfn": 0, "agi": 2, "int": 0 },
+      "skills": [
+        { "level": 2, "skill_id": 14, "name": "Flying Kick" },
+        { "level": 5, "skill_id": 16, "name": "Air Raid" },
+        { "level": 8, "skill_id": 22, "name": "Spirit Blast" },
+        { "level": 11, "skill_id": 11, "name": "Multistrike" }
+      ]
+    },
+    {
+      "id": "cataclysm_warlock",
+      "name": "Cataclysm Warlock",
+      "theme": "Earth & Flame Savant",
+      "description": "Sturdy pyromancer and geomancer wielding AoE volcanic and seismic magic.",
+      "stats": { "hp": 1, "ap": 2, "pwr": -1, "dfn": 1, "agi": -2, "int": 2 },
+      "skills": [
+        { "level": 2, "skill_id": 144, "name": "Wall of Fire" },
+        { "level": 5, "skill_id": 53, "name": "Lavaburst" },
+        { "level": 8, "skill_id": 204, "name": "Quake" },
+        { "level": 11, "skill_id": 206, "name": "Sirocco" }
+      ]
+    }
+  ],
+  "safe_fallback_skills": [
+    { "skill_id": 117, "name": "Rest" },
+    { "skill_id": 118, "name": "Burn" },
+    { "skill_id": 149, "name": "Douse" },
+    { "skill_id": 152, "name": "Snooze" },
+    { "skill_id": 159, "name": "Gloom" },
+    { "skill_id": 161, "name": "Timed Blow" },
+    { "skill_id": 162, "name": "Transfer" },
+    { "skill_id": 173, "name": "Intimidate" },
+    { "skill_id": 174, "name": "Heal" },
+    { "skill_id": 175, "name": "Rejuvenate" },
+    { "skill_id": 184, "name": "Protect" },
+    { "skill_id": 186, "name": "Speed" },
+    { "skill_id": 187, "name": "Might" },
+    { "skill_id": 189, "name": "Silence" },
+    { "skill_id": 190, "name": "Slow" },
+    { "skill_id": 191, "name": "Blunt" },
+    { "skill_id": 192, "name": "Weaken" },
+    { "skill_id": 193, "name": "Flare" },
+    { "skill_id": 194, "name": "Fireblast" },
+    { "skill_id": 196, "name": "Frost" },
+    { "skill_id": 197, "name": "Iceblast" },
+    { "skill_id": 199, "name": "Jolt" },
+    { "skill_id": 200, "name": "Lightning" },
+    { "skill_id": 202, "name": "Cyclone" },
+    { "skill_id": 205, "name": "Simoon" },
+    { "skill_id": 208, "name": "Death" },
+    { "skill_id": 209, "name": "Sleep" },
+    { "skill_id": 210, "name": "Confuse" },
+    { "skill_id": 211, "name": "Depress" },
+    { "skill_id": 215, "name": "Remedy" },
+    { "skill_id": 59,  "name": "Tornado" },
+    { "skill_id": 66,  "name": "Tsunami" },
+    { "skill_id": 67,  "name": "Chill" },
+    { "skill_id": 61,  "name": "Target" },
+    { "skill_id": 69,  "name": "Influence" },
+    { "skill_id": 8,   "name": "Blind" },
+    { "skill_id": 13,  "name": "Snap" },
+    { "skill_id": 45,  "name": "Bone Dart" }
+  ]
+}

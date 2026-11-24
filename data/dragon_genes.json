@@ -1,0 +1,333 @@
+{
+  "schema_version": 1,
+  "project": "Accursed Brood",
+  "_comment": "Progression-tiered Dragon Gene catalog and 17 randomized locations for US Breath of Fire III (SLUS-00422). Indices 0..16 match tables/pointers_genes.txt (Infinity excluded). Flame (index 0) uses raw byte 0x21 in vanilla SCENA03.EMI, normalized to 0 via patch_flame_gene.txt.",
+  "tier_order": ["early", "mid", "late"],
+  "modes": {
+    "tiered": {
+      "description": "Strict within-tier shuffle: guarantees core elemental & early combat genes in Early, mid-game modifiers in Mid, and endgame genes in Late.",
+      "cross_tier_swaps": 0,
+      "min_early_core_elements": 3
+    },
+    "tiered_bleed": {
+      "description": "Tiered shuffle with up to 1 controlled adjacent-tier swap per boundary while keeping at least 2 core elements in Early and keeping Failure out of Early.",
+      "cross_tier_swaps": 1,
+      "min_early_core_elements": 2
+    },
+    "flat": {
+      "description": "Unrestricted flat permutation across all 17 locations (legacy / Chaos behavior).",
+      "cross_tier_swaps": -1,
+      "min_early_core_elements": 0
+    }
+  },
+  "genes": [
+    {
+      "id": 0,
+      "name": "Flame",
+      "tier": "early",
+      "role": "core_element",
+      "core_element": true,
+      "exclude_from_early": false,
+      "description": "Core Fire elemental dragon gene."
+    },
+    {
+      "id": 1,
+      "name": "Frost",
+      "tier": "early",
+      "role": "core_element",
+      "core_element": true,
+      "exclude_from_early": false,
+      "description": "Core Ice elemental dragon gene."
+    },
+    {
+      "id": 2,
+      "name": "Thunder",
+      "tier": "early",
+      "role": "core_element",
+      "core_element": true,
+      "exclude_from_early": false,
+      "description": "Core Lightning elemental dragon gene."
+    },
+    {
+      "id": 3,
+      "name": "Shadow",
+      "tier": "late",
+      "role": "endgame_power",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Dark-elemental Tiamat/Shadow powerhouse gene."
+    },
+    {
+      "id": 4,
+      "name": "Radiance",
+      "tier": "late",
+      "role": "endgame_power",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Holy-elemental Radiant Dragon powerhouse gene."
+    },
+    {
+      "id": 5,
+      "name": "Force",
+      "tier": "mid",
+      "role": "combat_modifier",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Physical power & Warrior/Trygon form modifier."
+    },
+    {
+      "id": 6,
+      "name": "Defender",
+      "tier": "early",
+      "role": "combat_modifier",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Foundational defensive form modifier."
+    },
+    {
+      "id": 7,
+      "name": "Eldritch",
+      "tier": "mid",
+      "role": "utility_modifier",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "High-INT arcane caster form modifier."
+    },
+    {
+      "id": 8,
+      "name": "Miracle",
+      "tier": "mid",
+      "role": "combat_modifier",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Behemoth / high-vitality heavy dragon modifier."
+    },
+    {
+      "id": 9,
+      "name": "Gross",
+      "tier": "mid",
+      "role": "utility_modifier",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Mammoth / status-heavy tank modifier."
+    },
+    {
+      "id": 10,
+      "name": "Thorn",
+      "tier": "early",
+      "role": "combat_modifier",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Early physical combat & counter-oriented modifier."
+    },
+    {
+      "id": 11,
+      "name": "Reverse",
+      "tier": "mid",
+      "role": "utility_modifier",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Agility & Pygmy/elemental-inversion modifier."
+    },
+    {
+      "id": 12,
+      "name": "Mutant",
+      "tier": "mid",
+      "role": "utility_modifier",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Hybrid Mutant dragon form with status breaths."
+    },
+    {
+      "id": 13,
+      "name": "???",
+      "tier": "mid",
+      "role": "utility_modifier",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Mysterious hybrid modifier unlocking special dragon combos."
+    },
+    {
+      "id": 14,
+      "name": "Trance",
+      "tier": "late",
+      "role": "endgame_power",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Advanced transformation modifier for Myrmidon/Kaiser combos."
+    },
+    {
+      "id": 15,
+      "name": "Failure",
+      "tier": "late",
+      "role": "wildcard",
+      "core_element": false,
+      "exclude_from_early": true,
+      "description": "Niche wildcard gene kept out of Early tiers to avoid combat droughts."
+    },
+    {
+      "id": 16,
+      "name": "Fusion",
+      "tier": "late",
+      "role": "endgame_power",
+      "core_element": false,
+      "exclude_from_early": false,
+      "description": "Endgame party-fusion transformation gene."
+    }
+  ],
+  "locations": [
+    {
+      "index": 0,
+      "vanilla_gene_id": 0,
+      "vanilla_gene_name": "Flame",
+      "tier": "early",
+      "area_name": "Wyndia Catacombs (Flame Mural)",
+      "filename": "BIN/SCENARIO/SCENA03.EMI",
+      "has_chrysm": false
+    },
+    {
+      "index": 1,
+      "vanilla_gene_id": 1,
+      "vanilla_gene_name": "Frost",
+      "tier": "early",
+      "area_name": "Maekyss Gorge",
+      "filename": "BIN/WORLD01/AREA067.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 2,
+      "vanilla_gene_id": 2,
+      "vanilla_gene_name": "Thunder",
+      "tier": "mid",
+      "area_name": "Wyndia Castle Basement (Teleporter)",
+      "filename": "BIN/WORLD02/AREA100.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 3,
+      "vanilla_gene_id": 3,
+      "vanilla_gene_name": "Shadow",
+      "tier": "late",
+      "area_name": "Dragnier (Dragon Elder - Shadow)",
+      "filename": "BIN/SCENARIO/SCENA08.EMI",
+      "has_chrysm": false
+    },
+    {
+      "index": 4,
+      "vanilla_gene_id": 4,
+      "vanilla_gene_name": "Radiance",
+      "tier": "late",
+      "area_name": "Container Yard (Caer Xhan)",
+      "filename": "BIN/WORLD03/AREA146.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 5,
+      "vanilla_gene_id": 5,
+      "vanilla_gene_name": "Force",
+      "tier": "mid",
+      "area_name": "Hidden Factory (The Plant)",
+      "filename": "BIN/WORLD03/AREA117.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 6,
+      "vanilla_gene_id": 6,
+      "vanilla_gene_name": "Defender",
+      "tier": "early",
+      "area_name": "Wyndia Catacombs (Defender Mural)",
+      "filename": "BIN/SCENARIO/SCENA03.EMI",
+      "has_chrysm": false
+    },
+    {
+      "index": 7,
+      "vanilla_gene_id": 7,
+      "vanilla_gene_name": "Eldritch",
+      "tier": "mid",
+      "area_name": "Rhapala Lighthouse",
+      "filename": "BIN/WORLD02/AREA077.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 8,
+      "vanilla_gene_id": 8,
+      "vanilla_gene_name": "Miracle",
+      "tier": "mid",
+      "area_name": "Mt. Zublo",
+      "filename": "BIN/WORLD02/AREA103.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 9,
+      "vanilla_gene_id": 9,
+      "vanilla_gene_name": "Gross",
+      "tier": "mid",
+      "area_name": "Tidal Caves (Outside)",
+      "filename": "BIN/WORLD02/AREA105.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 10,
+      "vanilla_gene_id": 10,
+      "vanilla_gene_name": "Thorn",
+      "tier": "early",
+      "area_name": "Rocket Landing (Outside Momo's Tower)",
+      "filename": "BIN/WORLD01/AREA054.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 11,
+      "vanilla_gene_id": 11,
+      "vanilla_gene_name": "Reverse",
+      "tier": "early",
+      "area_name": "Rhapala Region Hut (Coffee Shop)",
+      "filename": "BIN/WORLD02/AREA093.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 12,
+      "vanilla_gene_id": 12,
+      "vanilla_gene_name": "Mutant",
+      "tier": "mid",
+      "area_name": "Steel Beach",
+      "filename": "BIN/WORLD01/AREA075.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 13,
+      "vanilla_gene_id": 13,
+      "vanilla_gene_name": "???",
+      "tier": "mid",
+      "area_name": "Master Fisherman's Hut (Dauna)",
+      "filename": "BIN/WORLD03/AREA114.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 14,
+      "vanilla_gene_id": 14,
+      "vanilla_gene_name": "Trance",
+      "tier": "late",
+      "area_name": "Yggdrasil Clearing (Kombinat)",
+      "filename": "BIN/WORLD03/AREA123.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 15,
+      "vanilla_gene_id": 15,
+      "vanilla_gene_name": "Failure",
+      "tier": "late",
+      "area_name": "Colony (Outside Caer Xhan)",
+      "filename": "BIN/WORLD03/AREA145.EMI",
+      "has_chrysm": true
+    },
+    {
+      "index": 16,
+      "vanilla_gene_id": 16,
+      "vanilla_gene_name": "Fusion",
+      "tier": "late",
+      "area_name": "Dragnier (Dragon Elder - Fusion)",
+      "filename": "BIN/SCENARIO/SCENA08.EMI",
+      "has_chrysm": false
+    }
+  ]
+}

@@ -10,15 +10,25 @@ from randomtools.interface import (
 from genepool.class_assigner import (
     assign_archetypes, assign_vanilla_role_swap,
     format_archetype_spoiler, format_vanilla_swap_spoiler)
+from genepool.genes import (
+    apply_gene_assignments, assign_dragon_genes,
+    assignments_from_gene_objects, format_genes_spoiler,
+    load_dragon_genes_config)
 from genepool.guardrails import (
     GuardrailReport, apply_monster_tier_clamps, choose_safe_fallback_skill,
     collect_canonical_area_codes, enforce_weapon_accessibility,
     filter_enemy_skill_candidates, format_guardrails_spoiler,
     load_crash_blacklist, load_encounter_tiers,
     load_weapon_accessibility_config, sanitize_monster_skills)
+from genepool.masters import (
+    apply_master_kit_assignments, assign_master_kits,
+    collect_character_levelup_skill_ids, format_master_kits_spoiler,
+    load_master_kits)
 from genepool.options import (
-    GUARDRAIL_CODES, REWARD_CODES, RunOptions, extract_cli_options,
-    resolve_options, scale_drop_rate_exp, scale_reward)
+    FEATURE_CODES, GUARDRAIL_CODES, PRESET_CODES, REWARD_CODES, RunOptions,
+    extract_cli_options, resolve_options, scale_drop_rate_exp, scale_reward)
+from genepool.presets import (
+    apply_preset_to_argv, format_share_string, load_presets)
 from genepool.rom_adapter import (
     apply_archetype_assignments, apply_vanilla_swap_assignments,
     capture_vanilla_snapshots)
@@ -31,23 +41,68 @@ from sys import argv
 from traceback import format_exc
 
 
-VERSION = '3.2-ab2'
+VERSION = '3.2-ab3'
 ALL_OBJECTS = None
 CLASS_SPOILER_TEXT = None
 _CLASS_MODE_APPLIED = False
+MASTER_SPOILER_TEXT = None
+_MASTER_KITS_APPLIED = False
+_GENES_APPLIED = False
+SHARE_STRING = None
 RUN_OPTIONS = RunOptions()
 CRASH_BLACKLIST = load_crash_blacklist()
 ENCOUNTER_TIERS = load_encounter_tiers()
 WEAPON_ACCESS_CONFIG = load_weapon_accessibility_config()
+MASTER_KITS_CONFIG = load_master_kits()
+DRAGON_GENES_CONFIG = load_dragon_genes_config()
+PRESETS = load_presets()
 GUARDRAIL_REPORT = GuardrailReport()
 
 
 def get_run_options():
-    return resolve_options(RUN_OPTIONS, get_activated_codes())
+    return resolve_options(RUN_OPTIONS, get_activated_codes(), presets=PRESETS)
 
 
 def get_active_class_mode():
     return get_run_options().class_mode
+
+
+def apply_curated_master_kits():
+    global MASTER_SPOILER_TEXT, _MASTER_KITS_APPLIED
+    if _MASTER_KITS_APPLIED:
+        return
+    if not get_run_options().master_kits:
+        return
+
+    MasterStatsObject.class_reseed('genepool_master_kits')
+    banned_ids = collect_character_levelup_skill_ids(
+        LevelObject.every,
+        restricted_char_names=frozenset(BaseStatsObject.RESTRICTED_NAMES),
+    )
+    assignments = assign_master_kits(
+        MASTER_KITS_CONFIG, random, banned_skill_ids=banned_ids
+    )
+    apply_master_kit_assignments(
+        assignments,
+        master_stats_cls=MasterStatsObject,
+        master_skills_cls=MasterSkillsObject,
+        ability_cls=AbilityObject,
+    )
+    MASTER_SPOILER_TEXT = format_master_kits_spoiler(assignments)
+    _MASTER_KITS_APPLIED = True
+
+
+def apply_tiered_dragon_genes():
+    global _GENES_APPLIED
+    if _GENES_APPLIED:
+        return
+    opts = get_run_options()
+    GeneObject.class_reseed('genepool_genes_' + opts.gene_mode)
+    assignments = assign_dragon_genes(
+        DRAGON_GENES_CONFIG, random, mode=opts.gene_mode
+    )
+    apply_gene_assignments(assignments, GeneObject.every)
+    _GENES_APPLIED = True
 
 
 def apply_curated_class_mode():
@@ -891,6 +946,14 @@ class MasterSkillsObject(TableObject):
     def after_order(self):
         return [BaseStatsObject]
 
+    @classmethod
+    def full_randomize(cls):
+        if get_run_options().master_kits:
+            apply_curated_master_kits()
+            cls.randomized = True
+            return
+        super().full_randomize()
+
     def __repr__(self):
         if self.name in self.RESTRICTED_NAMES:
             return ''
@@ -1016,6 +1079,18 @@ class MasterStatsObject(TableObject):
         'Hachio', 'Bais', 'Lang', 'Lee', 'Wynn',
         'Ladon', 'Meryleep',
         ]
+
+    @classproperty
+    def after_order(self):
+        return [BaseStatsObject]
+
+    @classmethod
+    def full_randomize(cls):
+        if get_run_options().master_kits:
+            apply_curated_master_kits()
+            cls.randomized = True
+            return
+        super().full_randomize()
 
     def __repr__(self):
         s = 'MASTER {0:0>2X} {1}\n'.format(self.index, self.name)
@@ -1501,6 +1576,14 @@ class GeneObject(TableObject):
     flag = 'g'
     flag_description = 'dragon gene locations'
     intershuffle_attributes = ['gene_index']
+
+    @classmethod
+    def full_randomize(cls):
+        if get_run_options().gene_mode != 'flat':
+            apply_tiered_dragon_genes()
+            cls.randomized = True
+            return
+        super().full_randomize()
 
     def cleanup(self):
         if self.gene_index == 0x21:
@@ -2133,18 +2216,28 @@ def write_spoiler(all_objects):
         get_random_degree()**0.5, get_difficulty()))
 
     opts = get_run_options()
-    if (opts.exp_mult != 1.0 or opts.zenny_mult != 1.0
-            or opts.drop_mult != 1.0 or opts.class_mode is not None
-            or not opts.crash_guard or not opts.tier_clamp
-            or not opts.weapon_guard):
-        f.write(
-            'Options: class_mode={0} | EXP={1:g}x | Zenny={2:g}x | Drop={3:g}x | '
-            'Guardrails(crash={4}, tiers={5}, weapons={6})\n'.format(
-                opts.class_mode or 'legacy', opts.exp_mult, opts.zenny_mult,
-                opts.drop_mult,
-                'ON' if opts.crash_guard else 'OFF',
-                'ON' if opts.tier_clamp else 'OFF',
-                'ON' if opts.weapon_guard else 'OFF'))
+    if opts.preset is not None:
+        f.write('Preset: {0}\n'.format(PRESETS[opts.preset].name))
+    share_str = SHARE_STRING or format_share_string(
+        opts,
+        flags=get_flags(),
+        seed=get_seed(),
+        random_degree=get_random_degree()**0.5,
+        difficulty=get_difficulty(),
+        presets=PRESETS,
+    )
+    f.write('Share String: {0}\n'.format(share_str))
+    f.write(
+        'Options: class_mode={0} | masters={1} | genes={2} | '
+        'EXP={3:g}x | Zenny={4:g}x | Drop={5:g}x | '
+        'Guardrails(crash={6}, tiers={7}, weapons={8})\n'.format(
+            opts.class_mode or 'legacy',
+            'curated' if opts.master_kits else 'legacy',
+            opts.gene_mode,
+            opts.exp_mult, opts.zenny_mult, opts.drop_mult,
+            'ON' if opts.crash_guard else 'OFF',
+            'ON' if opts.tier_clamp else 'OFF',
+            'ON' if opts.weapon_guard else 'OFF'))
 
     all_objects = sorted(all_objects, key=lambda x: x.__name__)
     random_degrees = [(o.random_degree**0.5) for o in all_objects]
@@ -2156,13 +2249,16 @@ def write_spoiler(all_objects):
 
     f.write('\n1. MASTERS\n'
             '2. CHARACTERS\n'
-            '3. MONSTERS\n'
-            '4. SHOPS\n'
-            '5. MANILLOS\n'
-            '6. CHESTS\n'
-            '7. GUARDRAILS\n\n')
+            '3. DRAGON GENES\n'
+            '4. MONSTERS\n'
+            '5. SHOPS\n'
+            '6. MANILLOS\n'
+            '7. CHESTS\n'
+            '8. GUARDRAILS\n\n')
 
     f.write('1. MASTERS\n\n')
+    if MASTER_SPOILER_TEXT:
+        f.write(MASTER_SPOILER_TEXT + '\n\n')
     for mso in MasterStatsObject.every:
         f.write(str(mso) + '\n\n')
 
@@ -2172,21 +2268,32 @@ def write_spoiler(all_objects):
     for bso in BaseStatsObject.every:
         f.write(str(bso) + '\n\n')
 
-    f.write('3. MONSTERS\n\n')
+    f.write('3. DRAGON GENES\n\n')
+    gene_assignments = assignments_from_gene_objects(
+        GeneObject.every, DRAGON_GENES_CONFIG
+    )
+    genes_randomized = GeneObject.flag in get_flags() or _GENES_APPLIED
+    f.write(
+        format_genes_spoiler(
+            gene_assignments, mode=opts.gene_mode, randomized=genes_randomized
+        ) + '\n\n'
+    )
+
+    f.write('4. MONSTERS\n\n')
     for m in sorted(MonsterObject.every, key=lambda x: x.name):
         if m.is_canonical:
             f.write(str(m) + '\n\n')
 
-    f.write('4. SHOPS\n\n')
+    f.write('5. SHOPS\n\n')
     for s in ShopObject.every:
         f.write(str(s) + '\n\n')
 
-    f.write('5. MANILLOS\n\n')
+    f.write('6. MANILLOS\n\n')
     for mso in ManilloStockObject.every:
         if mso.trades:
             f.write(str(mso) + '\n\n')
 
-    f.write('6. CHESTS\n\n')
+    f.write('7. CHESTS\n\n')
     areas = {c.area_code for c in ChestObject.every}
     for a in sorted(areas):
         chests = [c for c in ChestObject.every if c.area_code == a]
@@ -2198,7 +2305,7 @@ def write_spoiler(all_objects):
             f.write(str(c) + '\n')
         f.write('\n')
 
-    f.write('7. GUARDRAILS\n\n')
+    f.write('8. GUARDRAILS\n\n')
     f.write(format_guardrails_spoiler(GUARDRAIL_REPORT) + '\n')
 
     f.close()
@@ -2230,7 +2337,7 @@ def write_cue_file():
 
 
 def rewrite_master_list():
-    if MasterStatsObject.flag not in get_flags():
+    if MasterStatsObject.flag not in get_flags() and not _MASTER_KITS_APPLIED:
         return
 
     f = get_open_file('BIN/ETC/AFLDKWA.EMI', sandbox=True)
@@ -2343,8 +2450,8 @@ if __name__ == '__main__':
         print('You are using Accursed Brood (Breath of Fire III Structured Randomizer),\n'
               'built on "The Vast and the Violent", version %s.\n' % VERSION)
 
-        RUN_OPTIONS, _clean_argv = extract_cli_options(sys.argv)
-        sys.argv[:] = _clean_argv
+        RUN_OPTIONS, _clean_argv = extract_cli_options(sys.argv, presets=PRESETS)
+        sys.argv[:] = apply_preset_to_argv(_clean_argv, RUN_OPTIONS, presets=PRESETS)
 
         ALL_OBJECTS = [g for g in globals().values()
                        if isinstance(g, type) and issubclass(g, TableObject)
@@ -2361,6 +2468,8 @@ if __name__ == '__main__':
             }
         codes.update(REWARD_CODES)
         codes.update(GUARDRAIL_CODES)
+        codes.update(FEATURE_CODES)
+        codes.update(PRESET_CODES)
         run_interface(ALL_OBJECTS, snes=False, codes=codes,
                       custom_degree=True, custom_difficulty=True)
 
@@ -2368,6 +2477,18 @@ if __name__ == '__main__':
         GUARDRAIL_REPORT.crash_guard_enabled = _resolved_opts.crash_guard
         GUARDRAIL_REPORT.tier_clamp_enabled = _resolved_opts.tier_clamp
         GUARDRAIL_REPORT.weapon_guard_enabled = _resolved_opts.weapon_guard
+
+        SHARE_STRING = format_share_string(
+            _resolved_opts,
+            flags=get_flags(),
+            seed=get_seed(),
+            random_degree=get_random_degree()**0.5,
+            difficulty=get_difficulty(),
+            presets=PRESETS,
+        )
+        if _resolved_opts.preset is not None:
+            print('PRESET ACTIVATED: %s' % PRESETS[_resolved_opts.preset].name.upper())
+        print('SHARE STRING: %s' % SHARE_STRING)
 
         if (not _resolved_opts.crash_guard or not _resolved_opts.tier_clamp
                 or not _resolved_opts.weapon_guard):
@@ -2379,6 +2500,19 @@ if __name__ == '__main__':
             print('CURATED CLASS MODE ACTIVATED: %s'
                   % _resolved_opts.class_mode.upper())
             apply_curated_class_mode()
+
+        if _resolved_opts.master_kits and (
+                MasterStatsObject.flag in get_flags()
+                or _resolved_opts._master_kits_explicit):
+            print('CURATED MASTER KITS ACTIVATED')
+            apply_curated_master_kits()
+
+        if _resolved_opts.gene_mode != 'flat' and (
+                GeneObject.flag in get_flags()
+                or _resolved_opts._gene_mode_explicit):
+            print('DRAGON GENE MODE ACTIVATED: %s'
+                  % _resolved_opts.gene_mode.upper())
+            apply_tiered_dragon_genes()
 
         if (_resolved_opts.exp_mult != 1.0 or _resolved_opts.zenny_mult != 1.0
                 or _resolved_opts.drop_mult != 1.0):
