@@ -11,4 +11,6 @@ __all__ = [
     "class_assigner",
     "wiki_export",
     "rom_adapter",
+    "options",
+    "guardrails",
 ]

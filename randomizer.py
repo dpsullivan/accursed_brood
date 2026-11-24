@@ -10,9 +10,15 @@ from randomtools.interface import (
 from genepool.class_assigner import (
     assign_archetypes, assign_vanilla_role_swap,
     format_archetype_spoiler, format_vanilla_swap_spoiler)
+from genepool.guardrails import (
+    GuardrailReport, apply_monster_tier_clamps, choose_safe_fallback_skill,
+    collect_canonical_area_codes, enforce_weapon_accessibility,
+    filter_enemy_skill_candidates, format_guardrails_spoiler,
+    load_crash_blacklist, load_encounter_tiers,
+    load_weapon_accessibility_config, sanitize_monster_skills)
 from genepool.options import (
-    REWARD_CODES, RunOptions, extract_cli_options, resolve_options,
-    scale_drop_rate_exp, scale_reward)
+    GUARDRAIL_CODES, REWARD_CODES, RunOptions, extract_cli_options,
+    resolve_options, scale_drop_rate_exp, scale_reward)
 from genepool.rom_adapter import (
     apply_archetype_assignments, apply_vanilla_swap_assignments,
     capture_vanilla_snapshots)
@@ -25,11 +31,15 @@ from sys import argv
 from traceback import format_exc
 
 
-VERSION = '3.2-ab1'
+VERSION = '3.2-ab2'
 ALL_OBJECTS = None
 CLASS_SPOILER_TEXT = None
 _CLASS_MODE_APPLIED = False
 RUN_OPTIONS = RunOptions()
+CRASH_BLACKLIST = load_crash_blacklist()
+ENCOUNTER_TIERS = load_encounter_tiers()
+WEAPON_ACCESS_CONFIG = load_weapon_accessibility_config()
+GUARDRAIL_REPORT = GuardrailReport()
 
 
 def get_run_options():
@@ -452,8 +462,8 @@ class AbilityObject(NameMixin):
     ATTACK_SKILL = 2
     EXAMINE_SKILL = 3
 
-    BANNED_SKILLS = ['Head Cracker', 'Nue Stomp']
-    LEVELUP_BANNED_SKILLS = ['Backhand']
+    BANNED_SKILLS = list(CRASH_BLACKLIST.globally_banned_names)
+    LEVELUP_BANNED_SKILLS = list(CRASH_BLACKLIST.levelup_banned_names)
 
     @property
     def intershuffle_valid(self):
@@ -597,7 +607,9 @@ class AbilityObject(NameMixin):
                 del(name_ranks[name])
 
         for a in AbilityObject.every:
-            if a.old_name in AbilityObject.BANNED_SKILLS:
+            if (a.old_name in AbilityObject.BANNED_SKILLS
+                    or a.index in CRASH_BLACKLIST.globally_banned_ids
+                    or a.index in CRASH_BLACKLIST.dragon_form_banned_ids):
                 a._rank = -1
                 continue
             if a.name in name_ranks:
@@ -681,6 +693,10 @@ class ShopObject(TableObject):
     flag = 's'
     flag_description = 'shops and trades'
     custom_random_enable = 's'
+
+    @classproperty
+    def after_order(self):
+        return [WeaponObject]
 
     def __repr__(self):
         s = 'SHOP {0:0>2X} {1}\n'.format(self.index, self.name)
@@ -829,6 +845,24 @@ class ShopObject(TableObject):
                     new_items.remove(to_remove)
                 new_items = [flame_chrysm] + new_items
                 self.set_items(new_items)
+
+    @classmethod
+    def full_cleanup(cls):
+        opts = get_run_options()
+        flags = get_flags()
+        weapon_access_relevant = (
+            opts.class_mode is not None
+            or any(f in flags for f in ('q', 's', 't'))
+        )
+        if opts.weapon_guard and weapon_access_relevant:
+            ivs = enforce_weapon_accessibility(
+                cls.every,
+                WeaponObject.every,
+                config=WEAPON_ACCESS_CONFIG,
+                item_type_of=ItemMixin.item_type_from_item,
+            )
+            GUARDRAIL_REPORT.interventions.extend(ivs)
+        super().full_cleanup()
 
     def cleanup(self):
         sorted_items = sorted(
@@ -1815,20 +1849,70 @@ class MonsterObject(DupeMixin, NameMixin):
             skills = [AbilityObject.get(s) for s in getattr(self, attr)]
             existing_skills |= set(skills)
 
+        opts = get_run_options()
+        abilities_by_id = {a.index: a for a in AbilityObject.every}
         existing_skills = sorted(existing_skills, key=lambda s: s.index)
         skill_map = {}
         for existing in existing_skills:
             if existing.rank < 0:
-                skill_map[existing.index] = existing.index
+                if (opts.crash_guard
+                        and CRASH_BLACKLIST.is_skill_forbidden(
+                            existing.index,
+                            monster_name=self.name,
+                            is_boss=self.is_boss) is not None):
+                    skill_map[existing.index] = choose_safe_fallback_skill(
+                        existing,
+                        monster_name=self.name,
+                        is_boss=self.is_boss,
+                        blacklist=CRASH_BLACKLIST,
+                        abilities_by_id=abilities_by_id,
+                        rng=random,
+                    )
+                else:
+                    skill_map[existing.index] = existing.index
                 continue
 
             candidates = [s for s in AbilityObject.ranked if s is s.examine_alt
                           and existing.is_offense == s.is_offense
                           and existing.is_utility == s.is_utility
                           and s.rank >= 0]
+            if opts.crash_guard:
+                candidates = filter_enemy_skill_candidates(
+                    candidates,
+                    monster_name=self.name,
+                    is_boss=self.is_boss,
+                    blacklist=CRASH_BLACKLIST,
+                )
+            if not candidates:
+                skill_map[existing.index] = choose_safe_fallback_skill(
+                    existing,
+                    monster_name=self.name,
+                    is_boss=self.is_boss,
+                    blacklist=CRASH_BLACKLIST,
+                    abilities_by_id=abilities_by_id,
+                    rng=random,
+                )
+                continue
+
             new_skill = existing.examine_alt.get_similar(
-                candidates, random_degree=MonsterAbilityObject.random_degree)
-            skill_map[existing.index] = new_skill.index
+                candidates,
+                override_outsider=True,
+                random_degree=MonsterAbilityObject.random_degree)
+            if (opts.crash_guard
+                    and CRASH_BLACKLIST.is_skill_forbidden(
+                        new_skill.index,
+                        monster_name=self.name,
+                        is_boss=self.is_boss) is not None):
+                skill_map[existing.index] = choose_safe_fallback_skill(
+                    existing,
+                    monster_name=self.name,
+                    is_boss=self.is_boss,
+                    blacklist=CRASH_BLACKLIST,
+                    abilities_by_id=abilities_by_id,
+                    rng=random,
+                )
+            else:
+                skill_map[existing.index] = new_skill.index
 
         for attr in ['initial_skills',
                      'skills1', 'skills2', 'skills3', 'skills4']:
@@ -1884,6 +1968,12 @@ class MonsterObject(DupeMixin, NameMixin):
             new_resistances.append(r)
         self.resistances = new_resistances
 
+    @classmethod
+    def canonical_area_codes_map(cls):
+        if not hasattr(cls, '_canonical_area_codes'):
+            cls._canonical_area_codes = collect_canonical_area_codes(cls.every)
+        return cls._canonical_area_codes
+
     def preclean(self):
         self.reseed('difficulty')
         self.difficulty_boost()
@@ -1900,6 +1990,40 @@ class MonsterObject(DupeMixin, NameMixin):
 
         if self.is_canonical:
             opts = get_run_options()
+            flags = get_flags()
+
+            skills_mutated = (
+                self.initial_skills != self.old_data['initial_skills']
+                or any(
+                    getattr(self, 'skills%s' % i) != self.old_data['skills%s' % i]
+                    for i in range(1, 5)
+                )
+            )
+            if opts.crash_guard and (
+                    skills_mutated
+                    or (MonsterAbilityObject.flag in flags and not self.is_boss)):
+                abilities_by_id = {a.index: a for a in AbilityObject.every}
+                skill_ivs = sanitize_monster_skills(
+                    self,
+                    abilities_by_id=abilities_by_id,
+                    blacklist=CRASH_BLACKLIST,
+                    rng=random,
+                )
+                GUARDRAIL_REPORT.interventions.extend(skill_ivs)
+
+            if opts.tier_clamp and (
+                    MonsterObject.flag in flags
+                    or self.random_difficulty != 1.0):
+                area_codes = self.canonical_area_codes_map().get(
+                    self.index, frozenset())
+                tier_iv = apply_monster_tier_clamps(
+                    self,
+                    area_codes=area_codes,
+                    config=ENCOUNTER_TIERS,
+                )
+                if tier_iv is not None:
+                    GUARDRAIL_REPORT.interventions.append(tier_iv)
+
             if opts.exp_mult != 1.0:
                 self.exp = scale_reward(self.exp, opts.exp_mult)
             if opts.zenny_mult != 1.0:
@@ -2010,9 +2134,17 @@ def write_spoiler(all_objects):
 
     opts = get_run_options()
     if (opts.exp_mult != 1.0 or opts.zenny_mult != 1.0
-            or opts.drop_mult != 1.0 or opts.class_mode is not None):
-        f.write('Options: class_mode={0} | EXP={1:g}x | Zenny={2:g}x | Drop={3:g}x\n'.format(
-            opts.class_mode or 'legacy', opts.exp_mult, opts.zenny_mult, opts.drop_mult))
+            or opts.drop_mult != 1.0 or opts.class_mode is not None
+            or not opts.crash_guard or not opts.tier_clamp
+            or not opts.weapon_guard):
+        f.write(
+            'Options: class_mode={0} | EXP={1:g}x | Zenny={2:g}x | Drop={3:g}x | '
+            'Guardrails(crash={4}, tiers={5}, weapons={6})\n'.format(
+                opts.class_mode or 'legacy', opts.exp_mult, opts.zenny_mult,
+                opts.drop_mult,
+                'ON' if opts.crash_guard else 'OFF',
+                'ON' if opts.tier_clamp else 'OFF',
+                'ON' if opts.weapon_guard else 'OFF'))
 
     all_objects = sorted(all_objects, key=lambda x: x.__name__)
     random_degrees = [(o.random_degree**0.5) for o in all_objects]
@@ -2027,7 +2159,8 @@ def write_spoiler(all_objects):
             '3. MONSTERS\n'
             '4. SHOPS\n'
             '5. MANILLOS\n'
-            '6. CHESTS\n\n')
+            '6. CHESTS\n'
+            '7. GUARDRAILS\n\n')
 
     f.write('1. MASTERS\n\n')
     for mso in MasterStatsObject.every:
@@ -2064,6 +2197,9 @@ def write_spoiler(all_objects):
         for c in chests:
             f.write(str(c) + '\n')
         f.write('\n')
+
+    f.write('7. GUARDRAILS\n\n')
+    f.write(format_guardrails_spoiler(GUARDRAIL_REPORT) + '\n')
 
     f.close()
 
@@ -2224,10 +2360,21 @@ if __name__ == '__main__':
             'abilonym': ['abilonym'],
             }
         codes.update(REWARD_CODES)
+        codes.update(GUARDRAIL_CODES)
         run_interface(ALL_OBJECTS, snes=False, codes=codes,
                       custom_degree=True, custom_difficulty=True)
 
         _resolved_opts = get_run_options()
+        GUARDRAIL_REPORT.crash_guard_enabled = _resolved_opts.crash_guard
+        GUARDRAIL_REPORT.tier_clamp_enabled = _resolved_opts.tier_clamp
+        GUARDRAIL_REPORT.weapon_guard_enabled = _resolved_opts.weapon_guard
+
+        if (not _resolved_opts.crash_guard or not _resolved_opts.tier_clamp
+                or not _resolved_opts.weapon_guard):
+            print('GUARDRAIL OVERRIDES ACTIVE: crash=%s | tiers=%s | weapons=%s'
+                  % ('ON' if _resolved_opts.crash_guard else 'OFF',
+                     'ON' if _resolved_opts.tier_clamp else 'OFF',
+                     'ON' if _resolved_opts.weapon_guard else 'OFF'))
         if _resolved_opts.class_mode is not None:
             print('CURATED CLASS MODE ACTIVATED: %s'
                   % _resolved_opts.class_mode.upper())

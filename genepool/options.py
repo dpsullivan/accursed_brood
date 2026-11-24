@@ -1,4 +1,4 @@
-"""CLI option parsing and battle reward (EXP / Zenny / drop-rate) scaling."""
+"""CLI option parsing, guardrail overrides, and battle reward scaling."""
 
 from __future__ import annotations
 
@@ -20,6 +20,14 @@ REWARD_CODES: Dict[str, List[str]] = {
     "zenny3x": ["zenny3x", "z3x"],
     "zenny2x": ["zenny2x", "z2x"],
     "turbo10x": ["turbo10x", "fast10x"],
+}
+
+# Substring-safe guardrail override codes usable inside randomtools' flags argument.
+# Longer aliases precede shorter aliases so randomtools strips the full token cleanly.
+GUARDRAIL_CODES: Dict[str, List[str]] = {
+    "notierclamp": ["notierclamp", "noclamp"],
+    "noweaponguard": ["noweaponguard", "noweapguard"],
+    "chaos": ["truechaos", "noguardrails", "chaos"],
 }
 
 _EXP_CODE_VALUES: Dict[str, float] = {
@@ -47,9 +55,15 @@ class RunOptions:
     zenny_mult: float = 1.0
     drop_mult: float = 1.0
     class_mode: Optional[str] = None
+    crash_guard: bool = True
+    tier_clamp: bool = True
+    weapon_guard: bool = True
     _exp_explicit: bool = False
     _zenny_explicit: bool = False
     _drop_explicit: bool = False
+    _crash_guard_explicit: bool = False
+    _tier_clamp_explicit: bool = False
+    _weapon_guard_explicit: bool = False
 
 
 def _parse_positive_float(flag: str, raw: str) -> float:
@@ -72,9 +86,15 @@ def extract_cli_options(argv: Sequence[str]) -> Tuple[RunOptions, List[str]]:
     zenny_mult = 1.0
     drop_mult = 1.0
     class_mode: Optional[str] = None
+    crash_guard = True
+    tier_clamp = True
+    weapon_guard = True
     exp_explicit = False
     zenny_explicit = False
     drop_explicit = False
+    crash_guard_explicit = False
+    tier_clamp_explicit = False
+    weapon_guard_explicit = False
 
     remaining: List[str] = []
     i = 0
@@ -108,6 +128,20 @@ def extract_cli_options(argv: Sequence[str]) -> Tuple[RunOptions, List[str]]:
                     f"--class-mode must be 'archetypes' or 'roleswap', got {val!r}."
                 )
             class_mode = val
+        elif key == "--no-tier-clamp":
+            tier_clamp = False
+            tier_clamp_explicit = True
+        elif key == "--no-weapon-guard":
+            weapon_guard = False
+            weapon_guard_explicit = True
+        elif key in ("--no-guardrails", "--chaos", "--true-chaos"):
+            tier_clamp = False
+            weapon_guard = False
+            tier_clamp_explicit = True
+            weapon_guard_explicit = True
+        elif key == "--no-crash-guard":
+            crash_guard = False
+            crash_guard_explicit = True
         else:
             remaining.append(token)
         i += 1
@@ -118,9 +152,15 @@ def extract_cli_options(argv: Sequence[str]) -> Tuple[RunOptions, List[str]]:
             zenny_mult=zenny_mult,
             drop_mult=drop_mult,
             class_mode=class_mode,
+            crash_guard=crash_guard,
+            tier_clamp=tier_clamp,
+            weapon_guard=weapon_guard,
             _exp_explicit=exp_explicit,
             _zenny_explicit=zenny_explicit,
             _drop_explicit=drop_explicit,
+            _crash_guard_explicit=crash_guard_explicit,
+            _tier_clamp_explicit=tier_clamp_explicit,
+            _weapon_guard_explicit=weapon_guard_explicit,
         ),
         remaining,
     )
@@ -151,14 +191,31 @@ def resolve_options(
         elif "roleswap" in code_set:
             class_mode = "roleswap"
 
+    crash_guard = cli_options.crash_guard
+    tier_clamp = cli_options.tier_clamp
+    if not cli_options._tier_clamp_explicit:
+        if "notierclamp" in code_set or "chaos" in code_set:
+            tier_clamp = False
+
+    weapon_guard = cli_options.weapon_guard
+    if not cli_options._weapon_guard_explicit:
+        if "noweaponguard" in code_set or "chaos" in code_set:
+            weapon_guard = False
+
     return RunOptions(
         exp_mult=exp_mult,
         zenny_mult=zenny_mult,
         drop_mult=cli_options.drop_mult,
         class_mode=class_mode,
+        crash_guard=crash_guard,
+        tier_clamp=tier_clamp,
+        weapon_guard=weapon_guard,
         _exp_explicit=cli_options._exp_explicit,
         _zenny_explicit=cli_options._zenny_explicit,
         _drop_explicit=cli_options._drop_explicit,
+        _crash_guard_explicit=cli_options._crash_guard_explicit,
+        _tier_clamp_explicit=cli_options._tier_clamp_explicit,
+        _weapon_guard_explicit=cli_options._weapon_guard_explicit,
     )
 
 
