@@ -18,6 +18,9 @@
 .scratch/
 docs/agents/
 _local/
+_temp/
+_temp.bin
+workspace/
 roms/
 output/
 builds/

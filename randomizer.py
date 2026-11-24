@@ -7,15 +7,74 @@ from randomtools.utils import (
 from randomtools.interface import (
     run_interface, clean_and_write, finish_interface,
     get_activated_codes, get_flags, get_outfile)
+from genepool.class_assigner import (
+    assign_archetypes, assign_vanilla_role_swap,
+    format_archetype_spoiler, format_vanilla_swap_spoiler)
+from genepool.options import (
+    REWARD_CODES, RunOptions, extract_cli_options, resolve_options,
+    scale_drop_rate_exp, scale_reward)
+from genepool.rom_adapter import (
+    apply_archetype_assignments, apply_vanilla_swap_assignments,
+    capture_vanilla_snapshots)
+from genepool.schema import load_classes, load_equipment_categories
 from collections import Counter, defaultdict
 from math import ceil
 from os import path
+import sys
 from sys import argv
 from traceback import format_exc
 
 
-VERSION = '3.2'
+VERSION = '3.2-ab1'
 ALL_OBJECTS = None
+CLASS_SPOILER_TEXT = None
+_CLASS_MODE_APPLIED = False
+RUN_OPTIONS = RunOptions()
+
+
+def get_run_options():
+    return resolve_options(RUN_OPTIONS, get_activated_codes())
+
+
+def get_active_class_mode():
+    return get_run_options().class_mode
+
+
+def apply_curated_class_mode():
+    global CLASS_SPOILER_TEXT, _CLASS_MODE_APPLIED
+    if _CLASS_MODE_APPLIED:
+        return
+    mode = get_active_class_mode()
+    if mode is None:
+        return
+
+    BaseStatsObject.class_reseed('genepool_' + mode)
+    if mode == 'archetypes':
+        equip_catalog = load_equipment_categories()
+        classes = load_classes(equipment_catalog=equip_catalog)
+        assignments = assign_archetypes(classes, equip_catalog, random)
+        apply_archetype_assignments(
+            assignments,
+            base_stats_cls=BaseStatsObject,
+            weapon_cls=WeaponObject,
+            armor_cls=ArmorObject,
+            accessory_cls=AccessoryObject,
+            apply_equipment_permissions=True,
+        )
+        CLASS_SPOILER_TEXT = format_archetype_spoiler(assignments)
+    elif mode == 'roleswap':
+        snapshots = capture_vanilla_snapshots(BaseStatsObject, AbilityObject)
+        assignments = assign_vanilla_role_swap(snapshots, random)
+        apply_vanilla_swap_assignments(
+            assignments,
+            base_stats_cls=BaseStatsObject,
+            weapon_cls=WeaponObject,
+            armor_cls=ArmorObject,
+            accessory_cls=AccessoryObject,
+            apply_equipment_permissions=True,
+        )
+        CLASS_SPOILER_TEXT = format_vanilla_swap_spoiler(assignments)
+    _CLASS_MODE_APPLIED = True
 
 
 class NameMixin(TableObject):
@@ -277,7 +336,8 @@ class ItemMixin(NameMixin):
 
     def cleanup(self):
         if hasattr(self, 'equipability'):
-            if EquipmentObject.flag not in get_flags():
+            if (EquipmentObject.flag not in get_flags()
+                    and get_active_class_mode() is None):
                 assert self.equipability == self.old_data['equipability']
             if self.old_data['equipability'] == 0:
                 self.equipability = 0
@@ -326,6 +386,8 @@ class EquipmentObject(TableObject):
 
     def mutate(self):
         assert self.index == 0
+        if get_active_class_mode() is not None:
+            return
         for i in ItemMixin.shuffle_items:
             if hasattr(i, 'equipability'):
                 i.reseed('equip')
@@ -571,17 +633,23 @@ class LevelObject(TableObject):
         return BaseStatsObject.get(self.index // 99).name
 
     def set_stat(self, stat, value):
-        for attr in self.old_data:
-            old_value = getattr(self, attr)
-            if attr == stat:
-                setattr(self, attr, value)
-            elif attr.startswith(stat):
-                old_value &= 0xf
-                old_value |= (value << 4)
-            elif attr.endswith(stat):
-                old_value &= 0xf0
-                old_value |= value
-                return self.old_data[attr] & 0xf
+        if stat in ('hp', 'ap'):
+            assert 0 <= value <= 0xff
+            setattr(self, stat, value)
+        elif stat == 'pwr':
+            assert 0 <= value <= 0xf
+            self.pwr_dfn = (self.pwr_dfn & 0x0f) | (value << 4)
+        elif stat == 'dfn':
+            assert 0 <= value <= 0xf
+            self.pwr_dfn = (self.pwr_dfn & 0xf0) | value
+        elif stat == 'agi':
+            assert 0 <= value <= 0xf
+            self.agi_int = (self.agi_int & 0x0f) | (value << 4)
+        elif stat == 'int':
+            assert 0 <= value <= 0xf
+            self.agi_int = (self.agi_int & 0xf0) | value
+        else:
+            raise ValueError('Unknown level stat: %r' % (stat,))
 
     def get_old_stat(self, stat):
         for attr in self.old_data:
@@ -1003,6 +1071,18 @@ class BaseStatsObject(NameMixin):
         return self.name not in self.RESTRICTED_NAMES
 
     @property
+    def mutate_valid(self):
+        return self.name not in self.RESTRICTED_NAMES
+
+    @classmethod
+    def full_randomize(cls):
+        if get_active_class_mode() is not None:
+            apply_curated_class_mode()
+            cls.randomized = True
+            return
+        super().full_randomize()
+
+    @property
     def all_abilities(self):
         return [AbilityObject.get(a) for a in
                 self.healing_abilities + self.assist_abilities +
@@ -1031,8 +1111,10 @@ class BaseStatsObject(NameMixin):
         if not self.levels:
             return stats_values
         if stats_values is None:
-            stats_values = self.delevel_stats
-        for i in range(self.level + 1):
+            stats_values = dict(self.delevel_stats)
+        else:
+            stats_values = dict(stats_values)
+        for i in range(1, self.level):
             level_data = self.levels[i]
             for stat in sorted(stats_values):
                 stats_values[stat] += getattr(level_data, stat)
@@ -1056,7 +1138,6 @@ class BaseStatsObject(NameMixin):
         skill_type_counts = defaultdict(int)
         SKILL_TYPE_MAX_COUNT = 10
         for l in base_levels:
-            l.ability = 0
             for _ in range(1000):
                 base_rank = AbilityObject.get(
                     l.old_data['ability']).levelup_alt
@@ -1196,9 +1277,12 @@ class BaseStatsObject(NameMixin):
         accessories = [a.index for a in accessories]
         while len(accessories) < 2:
             accessories.append(0)
+        self.accessories = accessories
 
+        curated_mode = get_active_class_mode()
         ability_check = (self.flag in get_flags() and
-                         AbilityObject.flag in get_flags())
+                         AbilityObject.flag in get_flags() and
+                         curated_mode is None)
         if ability_check:
             for ability_type in ['healing', 'assist', 'attack', 'skills']:
                 setattr(self, '%s_abilities' % ability_type, list([]))
@@ -1238,7 +1322,7 @@ class BaseStatsObject(NameMixin):
                 while len(getattr(self, attr)) < len(self.old_data[attr]):
                     getattr(self, attr).append(0)
                 assert len(getattr(self, attr)) == len(self.old_data[attr])
-        else:
+        elif curated_mode is None:
             for ability_type in ['healing', 'assist', 'attack', 'skills']:
                 attr = '%s_abilities' % ability_type
                 assert getattr(self, attr) == self.old_data[attr]
@@ -1246,9 +1330,10 @@ class BaseStatsObject(NameMixin):
 
         for attr in sorted(self.old_data):
             if (attr in ['weapon', 'shield', 'helmet', 'armor', 'accessories']
-                    and EquipmentObject.flag in get_flags()):
+                    and (EquipmentObject.flag in get_flags()
+                         or curated_mode is not None)):
                 continue
-            if self.flag not in get_flags():
+            if self.flag not in get_flags() and curated_mode is None:
                 assert getattr(self, attr) == self.old_data[attr]
             other_attrs = ['base_%s' % attr, 'current_%s' % attr]
             for other in other_attrs:
@@ -1278,8 +1363,8 @@ class BaseStatsObject(NameMixin):
             self.accuracy = 100
             self.base_accuracy = 100
             self.current_hp = 999
-            self.max_hp = 999
-            self.base_max_hp = 999
+            self.hp = 999
+            self.base_hp = 999
 
 
 class BaseStats2Object(TableObject):
@@ -1813,11 +1898,23 @@ class MonsterObject(DupeMixin, NameMixin):
             for attr in self.difficulty_attrs:
                 setattr(self, attr, self.old_data[attr])
 
+        if self.is_canonical:
+            opts = get_run_options()
+            if opts.exp_mult != 1.0:
+                self.exp = scale_reward(self.exp, opts.exp_mult)
+            if opts.zenny_mult != 1.0:
+                self.zenny = scale_reward(self.zenny, opts.zenny_mult)
+
     def cleanup(self):
         if ChestObject.flag not in get_flags():
             for attr in ['steal_item_index', 'steal_item_type', 'steal_rate',
                          'drop_item_index', 'drop_item_type', 'drop_rate']:
                 setattr(self, attr, self.old_data[attr])
+
+        if self.is_canonical:
+            opts = get_run_options()
+            if opts.drop_mult != 1.0 and self.drop_rate > 0:
+                self.drop_rate = scale_drop_rate_exp(self.drop_rate, opts.drop_mult)
 
         super().cleanup()
 
@@ -1911,6 +2008,12 @@ def write_spoiler(all_objects):
         get_global_label(), VERSION, get_flags(), get_seed(),
         get_random_degree()**0.5, get_difficulty()))
 
+    opts = get_run_options()
+    if (opts.exp_mult != 1.0 or opts.zenny_mult != 1.0
+            or opts.drop_mult != 1.0 or opts.class_mode is not None):
+        f.write('Options: class_mode={0} | EXP={1:g}x | Zenny={2:g}x | Drop={3:g}x\n'.format(
+            opts.class_mode or 'legacy', opts.exp_mult, opts.zenny_mult, opts.drop_mult))
+
     all_objects = sorted(all_objects, key=lambda x: x.__name__)
     random_degrees = [(o.random_degree**0.5) for o in all_objects]
     if len(set(random_degrees)) > 1:
@@ -1931,6 +2034,8 @@ def write_spoiler(all_objects):
         f.write(str(mso) + '\n\n')
 
     f.write('2. CHARACTERS\n\n')
+    if CLASS_SPOILER_TEXT:
+        f.write(CLASS_SPOILER_TEXT + '\n\n')
     for bso in BaseStatsObject.every:
         f.write(str(bso) + '\n\n')
 
@@ -1966,11 +2071,26 @@ def write_spoiler(all_objects):
 def write_cue_file():
     filename = get_outfile()
     cue_filename = '.'.join(filename.split('.')[:-1] + ['cue'])
-    f = open(cue_filename, 'w+')
-    f.write('FILE "{0}" BINARY\n\n'
-            'TRACK 01 MODE2/2352\n\n'
-            'INDEX 01 00:00:00\n'.format(filename))
-    f.close()
+    bin_basename = path.basename(filename)
+    out_dir = path.dirname(filename)
+    lines = [
+        'FILE "{0}" BINARY'.format(bin_basename),
+        '  TRACK 01 MODE2/2352',
+        '    INDEX 01 00:00:00',
+    ]
+    # Preserve sibling Redump Track 2 audio if present in the same directory
+    if '(Track 1)' in bin_basename:
+        track2_prefix = bin_basename.split('(Track 1)', 1)[0] + '(Track 2).bin'
+        track2_path = path.join(out_dir, track2_prefix) if out_dir else track2_prefix
+        if path.exists(track2_path):
+            lines.extend([
+                'FILE "{0}" BINARY'.format(track2_prefix),
+                '  TRACK 02 AUDIO',
+                '    INDEX 00 00:00:00',
+                '    INDEX 01 00:02:00',
+            ])
+    with open(cue_filename, 'w+') as f:
+        f.write('\n'.join(lines) + '\n')
 
 
 def rewrite_master_list():
@@ -2084,13 +2204,18 @@ def rewrite_master_list():
 
 if __name__ == '__main__':
     try:
-        print('You are using the Breath of Fire III randomizer,\n'
-              '"The Vast and the Violent", version %s.\n' % VERSION)
+        print('You are using Accursed Brood (Breath of Fire III Structured Randomizer),\n'
+              'built on "The Vast and the Violent", version %s.\n' % VERSION)
+
+        RUN_OPTIONS, _clean_argv = extract_cli_options(sys.argv)
+        sys.argv[:] = _clean_argv
 
         ALL_OBJECTS = [g for g in globals().values()
                        if isinstance(g, type) and issubclass(g, TableObject)
                        and g not in [TableObject]]
         codes = {
+            'archetypes': ['archetypes', 'classes'],
+            'roleswap': ['roleswap', 'vanillaswap'],
             'easymodo': ['easymodo'],
             'equipanything': ['equipanything'],
             'feyday': ['feyday', 'faeday'],
@@ -2098,8 +2223,21 @@ if __name__ == '__main__':
             'bluemagician': ['bluemagician', 'bluemage'],
             'abilonym': ['abilonym'],
             }
+        codes.update(REWARD_CODES)
         run_interface(ALL_OBJECTS, snes=False, codes=codes,
                       custom_degree=True, custom_difficulty=True)
+
+        _resolved_opts = get_run_options()
+        if _resolved_opts.class_mode is not None:
+            print('CURATED CLASS MODE ACTIVATED: %s'
+                  % _resolved_opts.class_mode.upper())
+            apply_curated_class_mode()
+
+        if (_resolved_opts.exp_mult != 1.0 or _resolved_opts.zenny_mult != 1.0
+                or _resolved_opts.drop_mult != 1.0):
+            print('REWARD MULTIPLIERS ACTIVATED: EXP %gx | ZENNY %gx | DROP %gx'
+                  % (_resolved_opts.exp_mult, _resolved_opts.zenny_mult,
+                     _resolved_opts.drop_mult))
 
         if 'bluemagician' in get_activated_codes():
             print('SKILL EXAMINE CODE ACTIVATED')
