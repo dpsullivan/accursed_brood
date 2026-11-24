@@ -1,0 +1,121 @@
+{
+  "_comment": "US Breath of Fire III (SLUS-00422) data-driven crash blacklist and safe enemy ability fallbacks. All IDs verified against GAME.EMI AbilityObject (0x00..0xE3) and AREA*.EMI MonsterObject tables.",
+  "globally_banned_skills": [
+    {
+      "id": 1,
+      "hex": "0x01",
+      "name": "Nue Stomp",
+      "reason": "Requires Nue-specific stomp animation; crashes PS1 hardware/emulators when executed by regular enemies (e.g. Scorpion, Codger) or propagated from Plant42.",
+      "native_boss_owners": [
+        "Nue",
+        "Sample 1"
+      ]
+    },
+    {
+      "id": 128,
+      "hex": "0x80",
+      "name": "Head Cracker",
+      "reason": "Shroom-exclusive boss skill that causes crashes/softlocks when assigned to other monsters or examined by players.",
+      "native_boss_owners": [
+        "Shroom"
+      ]
+    }
+  ],
+  "levelup_banned_skills": [
+    {
+      "id": 165,
+      "hex": "0xA5",
+      "name": "Backhand",
+      "reason": "Reserved as examinable Master skill (guaranteed on a Master in MasterSkillsObject.full_preclean)."
+    }
+  ],
+  "dragon_form_banned_skills": [
+    { "id": 64,  "hex": "0x40", "name": "Weretiger" },
+    { "id": 120, "hex": "0x78", "name": "Whelp Breath" },
+    { "id": 121, "hex": "0x79", "name": "DragonBreath" },
+    { "id": 124, "hex": "0x7C", "name": "ThundrBreath" },
+    { "id": 125, "hex": "0x7D", "name": "DivineBreath" },
+    { "id": 126, "hex": "0x7E", "name": "ShadowBreath" },
+    { "id": 131, "hex": "0x83", "name": "KaiserBreath" },
+    { "id": 132, "hex": "0x84", "name": "Doom Breath" },
+    { "id": 133, "hex": "0x85", "name": "Flame Claw" },
+    { "id": 134, "hex": "0x86", "name": "Frost Claw" },
+    { "id": 135, "hex": "0x87", "name": "Thunder Claw" },
+    { "id": 136, "hex": "0x88", "name": "Shining Claw" },
+    { "id": 151, "hex": "0x97", "name": "Accession" },
+    { "id": 217, "hex": "0xD9", "name": "Restore Form" },
+    { "id": 218, "hex": "0xDA", "name": "Aura Breath" },
+    { "id": 219, "hex": "0xDB", "name": "Magma Breath" },
+    { "id": 220, "hex": "0xDC", "name": "Geo Breath" },
+    { "id": 221, "hex": "0xDD", "name": "Gaea'sBreath" },
+    { "id": 222, "hex": "0xDE", "name": "Combustion" },
+    { "id": 223, "hex": "0xDF", "name": "Tempest" },
+    { "id": 224, "hex": "0xE0", "name": "Hurricane" },
+    { "id": 225, "hex": "0xE1", "name": "Temptation" },
+    { "id": 226, "hex": "0xE2", "name": "MeteorStrike" },
+    { "id": 227, "hex": "0xE3", "name": "MeteorStrike" }
+  ],
+  "boss_only_skills": [
+    { "id": 17,  "hex": "0x11", "name": "Astral Warp",  "native_boss_owners": ["Amalgam"] },
+    { "id": 57,  "hex": "0x39", "name": "Bone Dance",   "native_boss_owners": ["D>Zombie"] },
+    { "id": 58,  "hex": "0x3A", "name": "Sanctuary",    "native_boss_owners": ["Gaist", "Myria", "Sample 9"] },
+    { "id": 66,  "hex": "0x42", "name": "Tsunami",      "native_boss_owners": ["Ammonite", "Dolphin", "Sample 6"] },
+    { "id": 81,  "hex": "0x51", "name": "RottenBreath", "native_boss_owners": ["D>Zombie"] },
+    { "id": 116, "hex": "0x74", "name": "UtmostAttack", "native_boss_owners": ["Stallion", "Sample10", "Sample11", "Sample12"] },
+    { "id": 129, "hex": "0x81", "name": "Holocaust",    "native_boss_owners": ["Myria"] },
+    { "id": 130, "hex": "0x82", "name": "Venom",        "native_boss_owners": ["Myria"] },
+    { "id": 137, "hex": "0x89", "name": "Corona",       "native_boss_owners": ["Gaist", "Sample 9"] },
+    { "id": 138, "hex": "0x8A", "name": "Main Cannon",  "native_boss_owners": ["Ammonite"] },
+    { "id": 139, "hex": "0x8B", "name": "Paralyzer",    "native_boss_owners": ["Chimera"] },
+    { "id": 150, "hex": "0x96", "name": "Eye Beam",     "native_boss_owners": ["Gazer"] },
+    { "id": 155, "hex": "0x9B", "name": "Pyrokinesis",  "native_boss_owners": ["Garr"] },
+    { "id": 164, "hex": "0xA4", "name": "Feign Swing",  "native_boss_owners": ["Manmo"] }
+  ],
+  "species_locked_skills": [
+    {
+      "id": 14,
+      "hex": "0x0E",
+      "name": "Flying Kick",
+      "reason": "Sprite-dependent jump-kick animation; unsafe on incompatible rigs such as Scorpion.",
+      "native_owners": ["Codger", "Magmaite", "Tricker"]
+    },
+    {
+      "id": 18,
+      "hex": "0x12",
+      "name": "Giant Growth",
+      "reason": "Monster sprite-scaling animation tied to Gonghead/Spiker.",
+      "native_owners": ["Gonghead", "Spiker"]
+    },
+    {
+      "id": 28,
+      "hex": "0x1C",
+      "name": "Devour",
+      "reason": "Swallow/spit battle script specific to carnivorous plant/insect enemies.",
+      "native_owners": ["Audrey", "FoulWeed", "Insector", "Man Trap"]
+    },
+    {
+      "id": 52,
+      "hex": "0x34",
+      "name": "Ovum",
+      "reason": "Hatching/summon animation tied to Egg/Rocky sprites.",
+      "native_owners": ["Egg Gang", "Gold Egg", "Rocky", "Sample 8"]
+    },
+    {
+      "id": 160,
+      "hex": "0xA0",
+      "name": "Jump",
+      "reason": "Leap animation tied to Roach/Rocky sprites.",
+      "native_owners": ["GntRoach", "Roach", "Rocky"]
+    }
+  ],
+  "enemy_specific_bans": {
+    "Scorpion": [1, 14, 18, 28, 52, 128, 138, 160],
+    "Codger": [1, 18, 28, 52, 128, 138, 160],
+    "Plant42": [1, 128]
+  },
+  "safe_fallbacks": {
+    "attack": [118, 119, 193, 196, 199, 202],
+    "assist": [8, 159, 189, 209, 210],
+    "healing": [117, 152, 174, 175]
+  }
+}

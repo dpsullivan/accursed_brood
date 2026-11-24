@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "project": "Accursed Brood",
+  "_comment": "Named presets for Accursed Brood. Explicit CLI flags (--exp-mult, --zenny-mult, --class-mode, --gene-mode, --master-kits/--no-master-kits, guardrail flags) cleanly override preset defaults.",
+  "presets": {
+    "standard": {
+      "name": "Standard",
+      "description": "Curated balanced run: 12 Archetype classes, curated Master Kits, strict tiered Dragon Genes, all Anti-Softlock Guardrails ON, and standard randomized shops, treasure, and enemies.",
+      "flags": "acegmnqst",
+      "random_degree": 0.5,
+      "difficulty": 1.0,
+      "class_mode": "archetypes",
+      "master_kits": true,
+      "gene_mode": "tiered",
+      "crash_guard": true,
+      "tier_clamp": true,
+      "weapon_guard": true,
+      "exp_mult": 1.0,
+      "zenny_mult": 1.0,
+      "drop_mult": 1.0
+    },
+    "fiesta": {
+      "name": "Fiesta",
+      "description": "Four-Job-Fiesta inspired class run: 12 Archetype classes, curated Master Kits, tiered Dragon Genes with light cross-tier bleed, all Anti-Softlock Guardrails ON, and 2x EXP/Zenny pacing.",
+      "flags": "acegmnqst",
+      "random_degree": 0.5,
+      "difficulty": 1.0,
+      "class_mode": "archetypes",
+      "master_kits": true,
+      "gene_mode": "tiered_bleed",
+      "crash_guard": true,
+      "tier_clamp": true,
+      "weapon_guard": true,
+      "exp_mult": 2.0,
+      "zenny_mult": 2.0,
+      "drop_mult": 1.0
+    },
+    "chaos": {
+      "name": "Chaos",
+      "description": "High-variance run: full flags at 0.85 randomness, legacy unconstrained characters & masters, flat Dragon Gene shuffle, tier & weapon guardrails relaxed, crash blacklist ON for PS1 stability.",
+      "flags": "acegmnqst",
+      "random_degree": 0.85,
+      "difficulty": 1.0,
+      "class_mode": null,
+      "master_kits": false,
+      "gene_mode": "flat",
+      "crash_guard": true,
+      "tier_clamp": false,
+      "weapon_guard": false,
+      "exp_mult": 1.0,
+      "zenny_mult": 1.0,
+      "drop_mult": 1.0
+    }
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "_comment": "US Breath of Fire III (SLUS-00422) progression-tiered enemy & mandatory boss scaling clamps. Uses version-invariant monster names and AREA###.EMI area codes (compatible with both US v1.0 and v1.1).",
+  "protect_max_hp_sentinels": true,
+  "max_hp_sentinel_threshold": 65535,
+  "protected_encounters": [
+    { "name": "Gary",     "reason": "Dauna Mine Whelp prologue tutorial fight (HP 65535)" },
+    { "name": "Mogu",     "reason": "Dauna Mine Whelp prologue tutorial fight (HP 65535)" },
+    { "name": "Miner",    "reason": "Dauna Mine Whelp prologue scripted fight (HP 65535)" },
+    { "name": "Engineer", "reason": "Dauna Mine Whelp prologue scripted fight (HP 65535)" },
+    { "name": "Foreman",  "reason": "Dauna Mine Whelp prologue scripted fight (HP 65535)" },
+    { "name": "Worker",   "reason": "Dauna Mine Whelp prologue scripted fight (HP 65535)" },
+    { "name": "Operator", "reason": "Dauna Mine Whelp prologue scripted fight (HP 65535, DEF 999)" },
+    { "name": "Nina",     "area_codes": [41], "reason": "Wyndia Castle basement scripted encounter (HP 65535)" },
+    { "name": "Beyd",     "area_codes": [92], "reason": "Rhapala Beyd training minigame" },
+    { "name": "Zig",      "area_codes": [92], "reason": "Rhapala Beyd vs Zig scripted story duel" },
+    { "name": "Garr",     "area_codes": [80], "reason": "Contest of Champions unwinnable Garr fight (HP 65535)" },
+    { "name": "Torch",    "area_codes": [120], "reason": "Gaist lantern gimmick target" }
+  ],
+  "tier_order": ["early", "mid", "late"],
+  "tiers": {
+    "early": {
+      "description": "Kid Ryu Act I (Cedar Woods, Mt. Glaus/Nue, McNeil Manor, Wyndia/Mt. Myrneg, Momo's Tower, The Dump, Maekyss Gorge/Stallion)",
+      "area_codes": [
+        3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        22, 23, 26, 27, 28, 29, 33,
+        40, 41, 42, 44, 48, 51, 52, 54, 56, 63, 64, 67, 69, 71,
+        91, 95, 96, 99
+      ],
+      "boss_names": [
+        "Nue",
+        "Pooch",
+        "Rocky",
+        "Torast",
+        "Kassen",
+        "Galtel",
+        "Doksen",
+        "Amalgam",
+        "Balio",
+        "Sunder",
+        "Mutant",
+        "Bully 1",
+        "Bully 2",
+        "Bully 3",
+        "Stallion"
+      ],
+      "boss_clamps": {
+        "hp":  [0.75, 1.30],
+        "ap":  [0.75, 1.35],
+        "pwr": [0.80, 1.25],
+        "dfn": [0.75, 1.25],
+        "agi": [0.80, 1.25],
+        "int": [0.80, 1.25],
+        "resistance_max_delta": 1,
+        "resistance_cap": 6,
+        "small_stat_headroom": 2
+      },
+      "enemy_clamps": {
+        "hp":  [0.70, 1.35],
+        "ap":  [0.70, 1.40],
+        "pwr": [0.75, 1.30],
+        "dfn": [0.70, 1.30],
+        "agi": [0.75, 1.30],
+        "int": [0.75, 1.30],
+        "resistance_max_delta": 1,
+        "resistance_cap": 5,
+        "small_stat_headroom": 3
+      }
+    },
+    "mid": {
+      "description": "Kid Ryu Act II & Early/Mid Adult Ryu (Arena, Rhapala/Lighthouse, Urkan Tapa/Angel Tower, Adult Dauna Mine, Ogre Road, Mt. Zublo, Tidal Caves, Hidden Factory, Cliff, Steel Beach, Black Ship)",
+      "area_codes": [
+        1, 35, 43, 70, 72, 73, 75, 76, 77, 79, 81, 82, 83, 84, 85,
+        97, 102, 103, 104, 105, 106, 107, 108, 109, 110,
+        117, 118, 119, 120, 124, 127, 134, 135, 136, 137, 175, 188
+      ],
+      "boss_names": [
+        "Dodai 1",
+        "Dodai 2",
+        "Cawer",
+        "Patrio",
+        "Claw",
+        "Emitai",
+        "Golem",
+        "Gazer",
+        "Dolphin",
+        "Garr",
+        "Weretigr",
+        "Mikba",
+        "D>Zombie",
+        "Scylla",
+        "Charyb",
+        "Gisshan",
+        "HugeSlug",
+        "Shroom",
+        "Gaist",
+        "Angler",
+        "Ammonite"
+      ],
+      "boss_clamps": {
+        "hp":  [0.65, 1.55],
+        "ap":  [0.65, 1.60],
+        "pwr": [0.70, 1.45],
+        "dfn": [0.65, 1.45],
+        "agi": [0.70, 1.45],
+        "int": [0.70, 1.45],
+        "resistance_max_delta": 2,
+        "resistance_cap": 6,
+        "small_stat_headroom": 3
+      },
+      "enemy_clamps": {
+        "hp":  [0.60, 1.65],
+        "ap":  [0.60, 1.75],
+        "pwr": [0.65, 1.55],
+        "dfn": [0.60, 1.55],
+        "agi": [0.65, 1.55],
+        "int": [0.65, 1.55],
+        "resistance_max_delta": 2,
+        "resistance_cap": 6,
+        "small_stat_headroom": 4
+      }
+    },
+    "late": {
+      "description": "Outer Sea Endgame (Factory, Ryu's Dream, Desert of Death, Dragnier, Colony/Container Yard, Caer Xhan, Myria Station, Eden)",
+      "area_codes": [
+        125, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149,
+        158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173,
+        196, 197, 198
+      ],
+      "boss_names": [
+        "Arwan",
+        "Manmo",
+        "Elder",
+        "Sample 1",
+        "Sample 2",
+        "Sample 3",
+        "Sample 4",
+        "Sample 5",
+        "Sample 6",
+        "Sample 7",
+        "Sample 8",
+        "Sample 9",
+        "Sample10",
+        "Sample11",
+        "Sample12",
+        "Chimera",
+        "D>Lord",
+        "Myria"
+      ],
+      "boss_clamps": {
+        "hp":  [0.55, 2.00],
+        "ap":  [0.55, 2.00],
+        "pwr": [0.60, 1.80],
+        "dfn": [0.55, 1.75],
+        "agi": [0.60, 1.80],
+        "int": [0.60, 1.80],
+        "resistance_max_delta": 3,
+        "resistance_cap": 7,
+        "small_stat_headroom": 5
+      },
+      "enemy_clamps": {
+        "hp":  [0.50, 2.25],
+        "ap":  [0.50, 2.25],
+        "pwr": [0.55, 2.00],
+        "dfn": [0.50, 2.00],
+        "agi": [0.55, 2.00],
+        "int": [0.55, 2.00],
+        "resistance_max_delta": 3,
+        "resistance_cap": 7,
+        "small_stat_headroom": 5
+      }
+    }
+  }
+}

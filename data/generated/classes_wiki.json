@@ -1,0 +1,2375 @@
+{
+  "schema_version": 1,
+  "project": "Accursed Brood",
+  "grading_level": 40,
+  "stats_order": [
+    "hp",
+    "ap",
+    "pwr",
+    "def",
+    "agl",
+    "int"
+  ],
+  "grade_thresholds_lv40": {
+    "hp": {
+      "S": 280,
+      "A": 240,
+      "B": 205,
+      "C": 175,
+      "D": 145
+    },
+    "ap": {
+      "S": 200,
+      "A": 160,
+      "B": 125,
+      "C": 90,
+      "D": 55
+    },
+    "pwr": {
+      "S": 165,
+      "A": 145,
+      "B": 125,
+      "C": 100,
+      "D": 75
+    },
+    "def": {
+      "S": 125,
+      "A": 105,
+      "B": 90,
+      "C": 75,
+      "D": 60
+    },
+    "agl": {
+      "S": 65,
+      "A": 55,
+      "B": 46,
+      "C": 38,
+      "D": 28
+    },
+    "int": {
+      "S": 165,
+      "A": 140,
+      "B": 115,
+      "C": 85,
+      "D": 55
+    }
+  },
+  "class_count": 12,
+  "classes": [
+    {
+      "id": "dragon_knight",
+      "name": "Dragon Knight",
+      "role": "Balanced Bruiser",
+      "description": "Versatile frontline swordsman backed by dependable white magic and shields.",
+      "curve": "frontloaded",
+      "weapons": [
+        "swords",
+        "daggers"
+      ],
+      "equipment": [
+        "heavy_armor",
+        "medium_armor",
+        "shields",
+        "helms",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 4.2,
+        "ap": 2.6,
+        "pwr": 2.7,
+        "def": 1.9,
+        "agl": 0.9,
+        "int": 2.2
+      },
+      "totals": {
+        "lv1": {
+          "hp": 22,
+          "ap": 12,
+          "pwr": 13,
+          "def": 11,
+          "agl": 8,
+          "int": 10
+        },
+        "lv40": {
+          "hp": 231,
+          "ap": 141,
+          "pwr": 147,
+          "def": 105,
+          "agl": 53,
+          "int": 119
+        },
+        "lv99": {
+          "hp": 434,
+          "ap": 267,
+          "pwr": 278,
+          "def": 197,
+          "agl": 96,
+          "int": 226
+        }
+      },
+      "bst": {
+        "lv1": 76,
+        "lv40": 796,
+        "lv99": 1498
+      },
+      "grades_lv40": {
+        "hp": "B",
+        "ap": "B",
+        "pwr": "A",
+        "def": "A",
+        "agl": "B",
+        "int": "B"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Heal",
+          "ability_id": 70,
+          "category": "healing"
+        },
+        {
+          "level": 4,
+          "skill": "Purify",
+          "ability_id": 75,
+          "category": "healing"
+        },
+        {
+          "level": 7,
+          "skill": "Protect",
+          "ability_id": 82,
+          "category": "assist"
+        },
+        {
+          "level": 11,
+          "skill": "Rejuvenate",
+          "ability_id": 71,
+          "category": "healing"
+        },
+        {
+          "level": 16,
+          "skill": "Shield",
+          "ability_id": 83,
+          "category": "assist"
+        },
+        {
+          "level": 20,
+          "skill": "Raise Dead",
+          "ability_id": 76,
+          "category": "healing"
+        },
+        {
+          "level": 25,
+          "skill": "Barrier",
+          "ability_id": 86,
+          "category": "assist"
+        },
+        {
+          "level": 30,
+          "skill": "Restore",
+          "ability_id": 72,
+          "category": "healing"
+        },
+        {
+          "level": 35,
+          "skill": "Vitalize",
+          "ability_id": 73,
+          "category": "healing"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 22,
+            "ap": 12,
+            "pwr": 13,
+            "def": 11,
+            "agl": 8,
+            "int": 10
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 46,
+            "ap": 27,
+            "pwr": 29,
+            "def": 22,
+            "agl": 13,
+            "int": 23
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 93,
+            "ap": 56,
+            "pwr": 58,
+            "def": 43,
+            "agl": 23,
+            "int": 47
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 46,
+            "ap": 27,
+            "pwr": 29,
+            "def": 22,
+            "agl": 13,
+            "int": 23
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 75,
+            "ap": 45,
+            "pwr": 47,
+            "def": 35,
+            "agl": 19,
+            "int": 38
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 22,
+            "ap": 12,
+            "pwr": 13,
+            "def": 11,
+            "agl": 8,
+            "int": 10
+          }
+        }
+      }
+    },
+    {
+      "id": "elementalist",
+      "name": "Elementalist",
+      "role": "Arcane Blaster",
+      "description": "Fragile high-AP nuker commanding fire, frost, thunder, and wind spells across every tier.",
+      "curve": "frontloaded",
+      "weapons": [
+        "staves"
+      ],
+      "equipment": [
+        "robes",
+        "light_armor",
+        "headgear",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 2.7,
+        "ap": 4.1,
+        "pwr": 1.3,
+        "def": 1.3,
+        "agl": 1.0,
+        "int": 3.0
+      },
+      "totals": {
+        "lv1": {
+          "hp": 16,
+          "ap": 20,
+          "pwr": 8,
+          "def": 8,
+          "agl": 11,
+          "int": 17
+        },
+        "lv40": {
+          "hp": 150,
+          "ap": 224,
+          "pwr": 73,
+          "def": 73,
+          "agl": 61,
+          "int": 166
+        },
+        "lv99": {
+          "hp": 281,
+          "ap": 422,
+          "pwr": 135,
+          "def": 135,
+          "agl": 109,
+          "int": 311
+        }
+      },
+      "bst": {
+        "lv1": 80,
+        "lv40": 747,
+        "lv99": 1393
+      },
+      "grades_lv40": {
+        "hp": "D",
+        "ap": "S",
+        "pwr": "F",
+        "def": "D",
+        "agl": "A",
+        "int": "S"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Flare",
+          "ability_id": 91,
+          "category": "attack"
+        },
+        {
+          "level": 3,
+          "skill": "Frost",
+          "ability_id": 94,
+          "category": "attack"
+        },
+        {
+          "level": 5,
+          "skill": "Jolt",
+          "ability_id": 97,
+          "category": "attack"
+        },
+        {
+          "level": 7,
+          "skill": "Cyclone",
+          "ability_id": 100,
+          "category": "attack"
+        },
+        {
+          "level": 11,
+          "skill": "Fireblast",
+          "ability_id": 92,
+          "category": "attack"
+        },
+        {
+          "level": 14,
+          "skill": "Iceblast",
+          "ability_id": 95,
+          "category": "attack"
+        },
+        {
+          "level": 17,
+          "skill": "Lightning",
+          "ability_id": 98,
+          "category": "attack"
+        },
+        {
+          "level": 19,
+          "skill": "Leech Power",
+          "ability_id": 78,
+          "category": "healing"
+        },
+        {
+          "level": 23,
+          "skill": "Typhoon",
+          "ability_id": 101,
+          "category": "attack"
+        },
+        {
+          "level": 29,
+          "skill": "Blizzard",
+          "ability_id": 96,
+          "category": "attack"
+        },
+        {
+          "level": 34,
+          "skill": "Myollnir",
+          "ability_id": 99,
+          "category": "attack"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 16,
+            "ap": 20,
+            "pwr": 8,
+            "def": 8,
+            "agl": 11,
+            "int": 17
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 32,
+            "ap": 44,
+            "pwr": 15,
+            "def": 15,
+            "agl": 17,
+            "int": 34
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 61,
+            "ap": 89,
+            "pwr": 30,
+            "def": 30,
+            "agl": 28,
+            "int": 67
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 32,
+            "ap": 44,
+            "pwr": 15,
+            "def": 15,
+            "agl": 17,
+            "int": 34
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 50,
+            "ap": 72,
+            "pwr": 25,
+            "def": 25,
+            "agl": 24,
+            "int": 55
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 16,
+            "ap": 20,
+            "pwr": 8,
+            "def": 8,
+            "agl": 11,
+            "int": 17
+          }
+        }
+      }
+    },
+    {
+      "id": "vanguard",
+      "name": "Vanguard",
+      "role": "Juggernaut Tank",
+      "description": "Heavy spear-and-blade breaker boasting top HP, Power, and Defense with fiery combat arts.",
+      "curve": "frontloaded",
+      "weapons": [
+        "spears",
+        "swords"
+      ],
+      "equipment": [
+        "heavy_armor",
+        "medium_armor",
+        "heavy_shields",
+        "shields",
+        "helms",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 5.0,
+        "ap": 0.7,
+        "pwr": 3.2,
+        "def": 2.4,
+        "agl": 0.6,
+        "int": 1.1
+      },
+      "totals": {
+        "lv1": {
+          "hp": 30,
+          "ap": 4,
+          "pwr": 18,
+          "def": 15,
+          "agl": 7,
+          "int": 6
+        },
+        "lv40": {
+          "hp": 278,
+          "ap": 39,
+          "pwr": 177,
+          "def": 134,
+          "agl": 37,
+          "int": 61
+        },
+        "lv99": {
+          "hp": 520,
+          "ap": 73,
+          "pwr": 332,
+          "def": 250,
+          "agl": 66,
+          "int": 114
+        }
+      },
+      "bst": {
+        "lv1": 80,
+        "lv40": 726,
+        "lv99": 1355
+      },
+      "grades_lv40": {
+        "hp": "A",
+        "ap": "F",
+        "pwr": "S",
+        "def": "S",
+        "agl": "D",
+        "int": "D"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Pyrokinesis",
+          "ability_id": 155,
+          "category": "attack"
+        },
+        {
+          "level": 4,
+          "skill": "Flare",
+          "ability_id": 91,
+          "category": "attack"
+        },
+        {
+          "level": 9,
+          "skill": "Protect",
+          "ability_id": 82,
+          "category": "assist"
+        },
+        {
+          "level": 15,
+          "skill": "Fireblast",
+          "ability_id": 92,
+          "category": "attack"
+        },
+        {
+          "level": 20,
+          "skill": "Gambit",
+          "ability_id": 2,
+          "category": "attack"
+        },
+        {
+          "level": 25,
+          "skill": "Might",
+          "ability_id": 85,
+          "category": "assist"
+        },
+        {
+          "level": 31,
+          "skill": "Inferno",
+          "ability_id": 93,
+          "category": "attack"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 30,
+            "ap": 4,
+            "pwr": 18,
+            "def": 15,
+            "agl": 7,
+            "int": 6
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 59,
+            "ap": 8,
+            "pwr": 36,
+            "def": 29,
+            "agl": 10,
+            "int": 12
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 114,
+            "ap": 16,
+            "pwr": 72,
+            "def": 55,
+            "agl": 17,
+            "int": 24
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 59,
+            "ap": 8,
+            "pwr": 36,
+            "def": 29,
+            "agl": 10,
+            "int": 12
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 94,
+            "ap": 13,
+            "pwr": 59,
+            "def": 46,
+            "agl": 15,
+            "int": 20
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 30,
+            "ap": 4,
+            "pwr": 18,
+            "def": 15,
+            "agl": 7,
+            "int": 6
+          }
+        }
+      }
+    },
+    {
+      "id": "shadowblade",
+      "name": "Shadowblade",
+      "role": "Speed Assassin",
+      "description": "Blazingly fast rogue built for EX turns, stealing loot, tempo debuffs, and thunder strikes.",
+      "curve": "linear",
+      "weapons": [
+        "daggers",
+        "claws"
+      ],
+      "equipment": [
+        "light_armor",
+        "medium_armor",
+        "bracers",
+        "headgear",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 4.4,
+        "ap": 1.8,
+        "pwr": 2.9,
+        "def": 2.0,
+        "agl": 1.4,
+        "int": 2.1
+      },
+      "totals": {
+        "lv1": {
+          "hp": 24,
+          "ap": 8,
+          "pwr": 15,
+          "def": 10,
+          "agl": 16,
+          "int": 12
+        },
+        "lv40": {
+          "hp": 196,
+          "ap": 78,
+          "pwr": 128,
+          "def": 88,
+          "agl": 71,
+          "int": 94
+        },
+        "lv99": {
+          "hp": 455,
+          "ap": 184,
+          "pwr": 299,
+          "def": 206,
+          "agl": 153,
+          "int": 218
+        }
+      },
+      "bst": {
+        "lv1": 85,
+        "lv40": 655,
+        "lv99": 1515
+      },
+      "grades_lv40": {
+        "hp": "C",
+        "ap": "D",
+        "pwr": "B",
+        "def": "C",
+        "agl": "S",
+        "int": "C"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Pilfer",
+          "ability_id": 65,
+          "category": "attack"
+        },
+        {
+          "level": 6,
+          "skill": "Slow",
+          "ability_id": 88,
+          "category": "assist"
+        },
+        {
+          "level": 9,
+          "skill": "Jolt",
+          "ability_id": 97,
+          "category": "attack"
+        },
+        {
+          "level": 12,
+          "skill": "Blunt",
+          "ability_id": 89,
+          "category": "assist"
+        },
+        {
+          "level": 15,
+          "skill": "Speed",
+          "ability_id": 84,
+          "category": "assist"
+        },
+        {
+          "level": 18,
+          "skill": "Silence",
+          "ability_id": 87,
+          "category": "assist"
+        },
+        {
+          "level": 22,
+          "skill": "Lightning",
+          "ability_id": 98,
+          "category": "attack"
+        },
+        {
+          "level": 29,
+          "skill": "Death",
+          "ability_id": 106,
+          "category": "attack"
+        },
+        {
+          "level": 36,
+          "skill": "Myollnir",
+          "ability_id": 99,
+          "category": "attack"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 24,
+            "ap": 8,
+            "pwr": 15,
+            "def": 10,
+            "agl": 16,
+            "int": 12
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 42,
+            "ap": 15,
+            "pwr": 27,
+            "def": 18,
+            "agl": 22,
+            "int": 20
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 77,
+            "ap": 30,
+            "pwr": 50,
+            "def": 34,
+            "agl": 33,
+            "int": 37
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 42,
+            "ap": 15,
+            "pwr": 27,
+            "def": 18,
+            "agl": 22,
+            "int": 20
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 64,
+            "ap": 24,
+            "pwr": 41,
+            "def": 28,
+            "agl": 29,
+            "int": 31
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 24,
+            "ap": 8,
+            "pwr": 15,
+            "def": 10,
+            "agl": 16,
+            "int": 12
+          }
+        }
+      }
+    },
+    {
+      "id": "cleric",
+      "name": "Cleric",
+      "role": "Dedicated Healer",
+      "description": "Devoted white mage anchoring long boss fights with full healing, cures, revives, and barriers.",
+      "curve": "linear",
+      "weapons": [
+        "staves"
+      ],
+      "equipment": [
+        "robes",
+        "light_armor",
+        "bracers",
+        "headgear",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 4.0,
+        "ap": 4.6,
+        "pwr": 1.6,
+        "def": 2.2,
+        "agl": 0.9,
+        "int": 3.4
+      },
+      "totals": {
+        "lv1": {
+          "hp": 20,
+          "ap": 18,
+          "pwr": 9,
+          "def": 11,
+          "agl": 9,
+          "int": 16
+        },
+        "lv40": {
+          "hp": 176,
+          "ap": 197,
+          "pwr": 71,
+          "def": 97,
+          "agl": 44,
+          "int": 149
+        },
+        "lv99": {
+          "hp": 412,
+          "ap": 469,
+          "pwr": 166,
+          "def": 227,
+          "agl": 97,
+          "int": 349
+        }
+      },
+      "bst": {
+        "lv1": 83,
+        "lv40": 734,
+        "lv99": 1720
+      },
+      "grades_lv40": {
+        "hp": "C",
+        "ap": "A",
+        "pwr": "F",
+        "def": "B",
+        "agl": "C",
+        "int": "A"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Heal",
+          "ability_id": 70,
+          "category": "healing"
+        },
+        {
+          "level": 3,
+          "skill": "Purify",
+          "ability_id": 75,
+          "category": "healing"
+        },
+        {
+          "level": 6,
+          "skill": "Protect",
+          "ability_id": 82,
+          "category": "assist"
+        },
+        {
+          "level": 10,
+          "skill": "Rejuvenate",
+          "ability_id": 71,
+          "category": "healing"
+        },
+        {
+          "level": 14,
+          "skill": "Shield",
+          "ability_id": 83,
+          "category": "assist"
+        },
+        {
+          "level": 17,
+          "skill": "Remedy",
+          "ability_id": 115,
+          "category": "healing"
+        },
+        {
+          "level": 20,
+          "skill": "Raise Dead",
+          "ability_id": 76,
+          "category": "healing"
+        },
+        {
+          "level": 23,
+          "skill": "Vitalize",
+          "ability_id": 73,
+          "category": "healing"
+        },
+        {
+          "level": 26,
+          "skill": "Barrier",
+          "ability_id": 86,
+          "category": "assist"
+        },
+        {
+          "level": 29,
+          "skill": "Restore",
+          "ability_id": 72,
+          "category": "healing"
+        },
+        {
+          "level": 32,
+          "skill": "Kyrie",
+          "ability_id": 105,
+          "category": "attack"
+        },
+        {
+          "level": 34,
+          "skill": "Resurrect",
+          "ability_id": 77,
+          "category": "healing"
+        },
+        {
+          "level": 38,
+          "skill": "Vigor",
+          "ability_id": 74,
+          "category": "healing"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 20,
+            "ap": 18,
+            "pwr": 9,
+            "def": 11,
+            "agl": 9,
+            "int": 16
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 36,
+            "ap": 36,
+            "pwr": 15,
+            "def": 20,
+            "agl": 13,
+            "int": 30
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 68,
+            "ap": 73,
+            "pwr": 28,
+            "def": 37,
+            "agl": 20,
+            "int": 57
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 36,
+            "ap": 36,
+            "pwr": 15,
+            "def": 20,
+            "agl": 13,
+            "int": 30
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 56,
+            "ap": 59,
+            "pwr": 23,
+            "def": 31,
+            "agl": 17,
+            "int": 47
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 20,
+            "ap": 18,
+            "pwr": 9,
+            "def": 11,
+            "agl": 9,
+            "int": 16
+          }
+        }
+      }
+    },
+    {
+      "id": "artificer",
+      "name": "Artificer",
+      "role": "Tactical Engineer",
+      "description": "High-Intelligence cannon specialist mixing utility scouting, crowd control, and heavy earth/arcane ordnance.",
+      "curve": "late_bloomer",
+      "weapons": [
+        "cannons",
+        "daggers"
+      ],
+      "equipment": [
+        "medium_armor",
+        "light_armor",
+        "robes",
+        "bracers",
+        "headgear",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 5.3,
+        "ap": 4.5,
+        "pwr": 3.5,
+        "def": 2.6,
+        "agl": 1.1,
+        "int": 5.5
+      },
+      "totals": {
+        "lv1": {
+          "hp": 22,
+          "ap": 16,
+          "pwr": 13,
+          "def": 11,
+          "agl": 9,
+          "int": 20
+        },
+        "lv40": {
+          "hp": 172,
+          "ap": 143,
+          "pwr": 112,
+          "def": 85,
+          "agl": 40,
+          "int": 176
+        },
+        "lv99": {
+          "hp": 541,
+          "ap": 457,
+          "pwr": 356,
+          "def": 266,
+          "agl": 117,
+          "int": 559
+        }
+      },
+      "bst": {
+        "lv1": 91,
+        "lv40": 728,
+        "lv99": 2296
+      },
+      "grades_lv40": {
+        "hp": "D",
+        "ap": "B",
+        "pwr": "C",
+        "def": "C",
+        "agl": "C",
+        "int": "S"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Identify",
+          "ability_id": 60,
+          "category": "assist"
+        },
+        {
+          "level": 2,
+          "skill": "Foretell",
+          "ability_id": 68,
+          "category": "assist"
+        },
+        {
+          "level": 4,
+          "skill": "Heal",
+          "ability_id": 70,
+          "category": "healing"
+        },
+        {
+          "level": 7,
+          "skill": "Protect",
+          "ability_id": 82,
+          "category": "assist"
+        },
+        {
+          "level": 10,
+          "skill": "Silence",
+          "ability_id": 87,
+          "category": "assist"
+        },
+        {
+          "level": 13,
+          "skill": "Sleep",
+          "ability_id": 107,
+          "category": "assist"
+        },
+        {
+          "level": 15,
+          "skill": "Quake",
+          "ability_id": 102,
+          "category": "attack"
+        },
+        {
+          "level": 19,
+          "skill": "Confuse",
+          "ability_id": 108,
+          "category": "assist"
+        },
+        {
+          "level": 22,
+          "skill": "Might",
+          "ability_id": 85,
+          "category": "assist"
+        },
+        {
+          "level": 26,
+          "skill": "Raise Dead",
+          "ability_id": 76,
+          "category": "healing"
+        },
+        {
+          "level": 31,
+          "skill": "Ragnarok",
+          "ability_id": 110,
+          "category": "attack"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 22,
+            "ap": 16,
+            "pwr": 13,
+            "def": 11,
+            "agl": 9,
+            "int": 20
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 34,
+            "ap": 26,
+            "pwr": 21,
+            "def": 17,
+            "agl": 11,
+            "int": 32
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 60,
+            "ap": 48,
+            "pwr": 38,
+            "def": 30,
+            "agl": 17,
+            "int": 60
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 34,
+            "ap": 26,
+            "pwr": 21,
+            "def": 17,
+            "agl": 11,
+            "int": 32
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 50,
+            "ap": 40,
+            "pwr": 31,
+            "def": 25,
+            "agl": 15,
+            "int": 49
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 22,
+            "ap": 16,
+            "pwr": 13,
+            "def": 11,
+            "agl": 9,
+            "int": 20
+          }
+        }
+      }
+    },
+    {
+      "id": "brawler",
+      "name": "Brawler",
+      "role": "Vitality Bruiser",
+      "description": "Unshakable claw fighter with titanic HP, natural defense, and primal breath attacks.",
+      "curve": "frontloaded",
+      "weapons": [
+        "claws"
+      ],
+      "equipment": [
+        "light_armor",
+        "medium_armor",
+        "bracers",
+        "shields",
+        "headgear",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 5.6,
+        "ap": 2.1,
+        "pwr": 2.8,
+        "def": 2.3,
+        "agl": 0.5,
+        "int": 0.8
+      },
+      "totals": {
+        "lv1": {
+          "hp": 36,
+          "ap": 8,
+          "pwr": 17,
+          "def": 14,
+          "agl": 5,
+          "int": 5
+        },
+        "lv40": {
+          "hp": 314,
+          "ap": 112,
+          "pwr": 156,
+          "def": 128,
+          "agl": 30,
+          "int": 45
+        },
+        "lv99": {
+          "hp": 585,
+          "ap": 214,
+          "pwr": 291,
+          "def": 239,
+          "agl": 54,
+          "int": 83
+        }
+      },
+      "bst": {
+        "lv1": 85,
+        "lv40": 785,
+        "lv99": 1466
+      },
+      "grades_lv40": {
+        "hp": "S",
+        "ap": "C",
+        "pwr": "A",
+        "def": "S",
+        "agl": "D",
+        "int": "F"
+      },
+      "spells": [
+        {
+          "level": 8,
+          "skill": "Dream Breath",
+          "ability_id": 48,
+          "category": "assist"
+        },
+        {
+          "level": 14,
+          "skill": "Venom Breath",
+          "ability_id": 51,
+          "category": "assist"
+        },
+        {
+          "level": 18,
+          "skill": "Gambit",
+          "ability_id": 2,
+          "category": "attack"
+        },
+        {
+          "level": 21,
+          "skill": "Rejuvenate",
+          "ability_id": 71,
+          "category": "healing"
+        },
+        {
+          "level": 24,
+          "skill": "Purify",
+          "ability_id": 75,
+          "category": "healing"
+        },
+        {
+          "level": 28,
+          "skill": "Icebreath",
+          "ability_id": 47,
+          "category": "attack"
+        },
+        {
+          "level": 32,
+          "skill": "Firebreath",
+          "ability_id": 46,
+          "category": "attack"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 36,
+            "ap": 8,
+            "pwr": 17,
+            "def": 14,
+            "agl": 5,
+            "int": 5
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 68,
+            "ap": 20,
+            "pwr": 33,
+            "def": 27,
+            "agl": 8,
+            "int": 10
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 130,
+            "ap": 43,
+            "pwr": 64,
+            "def": 53,
+            "agl": 13,
+            "int": 18
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 68,
+            "ap": 20,
+            "pwr": 33,
+            "def": 27,
+            "agl": 8,
+            "int": 10
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 107,
+            "ap": 35,
+            "pwr": 53,
+            "def": 43,
+            "agl": 11,
+            "int": 15
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 36,
+            "ap": 8,
+            "pwr": 17,
+            "def": 14,
+            "agl": 5,
+            "int": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "spellblade",
+      "name": "Spellblade",
+      "role": "Arcane Skirmisher",
+      "description": "Hybrid swordsman weaving solid physical strikes with mid-to-high tier elemental magic.",
+      "curve": "linear",
+      "weapons": [
+        "swords",
+        "daggers"
+      ],
+      "equipment": [
+        "medium_armor",
+        "light_armor",
+        "shields",
+        "helms",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 4.5,
+        "ap": 3.5,
+        "pwr": 2.9,
+        "def": 2.1,
+        "agl": 1.1,
+        "int": 3.2
+      },
+      "totals": {
+        "lv1": {
+          "hp": 21,
+          "ap": 14,
+          "pwr": 13,
+          "def": 10,
+          "agl": 10,
+          "int": 14
+        },
+        "lv40": {
+          "hp": 197,
+          "ap": 151,
+          "pwr": 126,
+          "def": 92,
+          "agl": 53,
+          "int": 139
+        },
+        "lv99": {
+          "hp": 462,
+          "ap": 357,
+          "pwr": 297,
+          "def": 216,
+          "agl": 118,
+          "int": 328
+        }
+      },
+      "bst": {
+        "lv1": 82,
+        "lv40": 758,
+        "lv99": 1778
+      },
+      "grades_lv40": {
+        "hp": "C",
+        "ap": "B",
+        "pwr": "B",
+        "def": "B",
+        "agl": "B",
+        "int": "B"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Flare",
+          "ability_id": 91,
+          "category": "attack"
+        },
+        {
+          "level": 4,
+          "skill": "Frost",
+          "ability_id": 94,
+          "category": "attack"
+        },
+        {
+          "level": 8,
+          "skill": "Protect",
+          "ability_id": 82,
+          "category": "assist"
+        },
+        {
+          "level": 11,
+          "skill": "Jolt",
+          "ability_id": 97,
+          "category": "attack"
+        },
+        {
+          "level": 15,
+          "skill": "Fireblast",
+          "ability_id": 92,
+          "category": "attack"
+        },
+        {
+          "level": 18,
+          "skill": "Iceblast",
+          "ability_id": 95,
+          "category": "attack"
+        },
+        {
+          "level": 22,
+          "skill": "Barrier",
+          "ability_id": 86,
+          "category": "assist"
+        },
+        {
+          "level": 25,
+          "skill": "Lightning",
+          "ability_id": 98,
+          "category": "attack"
+        },
+        {
+          "level": 30,
+          "skill": "Fire Whip",
+          "ability_id": 114,
+          "category": "attack"
+        },
+        {
+          "level": 34,
+          "skill": "Inferno",
+          "ability_id": 93,
+          "category": "attack"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 21,
+            "ap": 14,
+            "pwr": 13,
+            "def": 10,
+            "agl": 10,
+            "int": 14
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 39,
+            "ap": 28,
+            "pwr": 25,
+            "def": 18,
+            "agl": 14,
+            "int": 27
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 75,
+            "ap": 56,
+            "pwr": 48,
+            "def": 35,
+            "agl": 23,
+            "int": 52
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 39,
+            "ap": 28,
+            "pwr": 25,
+            "def": 18,
+            "agl": 14,
+            "int": 27
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 62,
+            "ap": 46,
+            "pwr": 39,
+            "def": 29,
+            "agl": 20,
+            "int": 43
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 21,
+            "ap": 14,
+            "pwr": 13,
+            "def": 10,
+            "agl": 10,
+            "int": 14
+          }
+        }
+      }
+    },
+    {
+      "id": "hexer",
+      "name": "Hexer",
+      "role": "Status Controller",
+      "description": "Swift dark caster who dismantles bosses with stat debuffs, ailments, drains, and lethal curses.",
+      "curve": "linear",
+      "weapons": [
+        "staves",
+        "daggers"
+      ],
+      "equipment": [
+        "robes",
+        "light_armor",
+        "bracers",
+        "headgear",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 3.8,
+        "ap": 4.2,
+        "pwr": 1.9,
+        "def": 1.8,
+        "agl": 1.3,
+        "int": 3.7
+      },
+      "totals": {
+        "lv1": {
+          "hp": 18,
+          "ap": 16,
+          "pwr": 10,
+          "def": 9,
+          "agl": 13,
+          "int": 17
+        },
+        "lv40": {
+          "hp": 166,
+          "ap": 180,
+          "pwr": 84,
+          "def": 79,
+          "agl": 64,
+          "int": 161
+        },
+        "lv99": {
+          "hp": 390,
+          "ap": 428,
+          "pwr": 196,
+          "def": 185,
+          "agl": 140,
+          "int": 380
+        }
+      },
+      "bst": {
+        "lv1": 83,
+        "lv40": 734,
+        "lv99": 1719
+      },
+      "grades_lv40": {
+        "hp": "D",
+        "ap": "A",
+        "pwr": "D",
+        "def": "C",
+        "agl": "A",
+        "int": "A"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Weaken",
+          "ability_id": 90,
+          "category": "assist"
+        },
+        {
+          "level": 3,
+          "skill": "Blunt",
+          "ability_id": 89,
+          "category": "assist"
+        },
+        {
+          "level": 6,
+          "skill": "Slow",
+          "ability_id": 88,
+          "category": "assist"
+        },
+        {
+          "level": 9,
+          "skill": "Drain",
+          "ability_id": 79,
+          "category": "healing"
+        },
+        {
+          "level": 12,
+          "skill": "Silence",
+          "ability_id": 87,
+          "category": "assist"
+        },
+        {
+          "level": 15,
+          "skill": "Sleep",
+          "ability_id": 107,
+          "category": "assist"
+        },
+        {
+          "level": 18,
+          "skill": "Confuse",
+          "ability_id": 108,
+          "category": "assist"
+        },
+        {
+          "level": 21,
+          "skill": "Leech Power",
+          "ability_id": 78,
+          "category": "healing"
+        },
+        {
+          "level": 25,
+          "skill": "Depress",
+          "ability_id": 109,
+          "category": "attack"
+        },
+        {
+          "level": 29,
+          "skill": "Death",
+          "ability_id": 106,
+          "category": "attack"
+        },
+        {
+          "level": 35,
+          "skill": "Ragnarok",
+          "ability_id": 110,
+          "category": "attack"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 18,
+            "ap": 16,
+            "pwr": 10,
+            "def": 9,
+            "agl": 13,
+            "int": 17
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 33,
+            "ap": 33,
+            "pwr": 18,
+            "def": 16,
+            "agl": 18,
+            "int": 32
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 64,
+            "ap": 66,
+            "pwr": 33,
+            "def": 31,
+            "agl": 29,
+            "int": 61
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 33,
+            "ap": 33,
+            "pwr": 18,
+            "def": 16,
+            "agl": 18,
+            "int": 32
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 52,
+            "ap": 54,
+            "pwr": 27,
+            "def": 25,
+            "agl": 25,
+            "int": 50
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 18,
+            "ap": 16,
+            "pwr": 10,
+            "def": 9,
+            "agl": 13,
+            "int": 17
+          }
+        }
+      }
+    },
+    {
+      "id": "paladin",
+      "name": "Paladin",
+      "role": "Holy Bastion",
+      "description": "Stalwart late-scaling guardian combining top-tier armor, healing, and holy smiting.",
+      "curve": "late_bloomer",
+      "weapons": [
+        "swords",
+        "spears"
+      ],
+      "equipment": [
+        "heavy_armor",
+        "heavy_shields",
+        "shields",
+        "helms",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 6.8,
+        "ap": 3.6,
+        "pwr": 4.1,
+        "def": 4.0,
+        "agl": 0.9,
+        "int": 3.3
+      },
+      "totals": {
+        "lv1": {
+          "hp": 26,
+          "ap": 10,
+          "pwr": 14,
+          "def": 15,
+          "agl": 6,
+          "int": 11
+        },
+        "lv40": {
+          "hp": 219,
+          "ap": 112,
+          "pwr": 130,
+          "def": 128,
+          "agl": 31,
+          "int": 104
+        },
+        "lv99": {
+          "hp": 692,
+          "ap": 363,
+          "pwr": 416,
+          "def": 407,
+          "agl": 94,
+          "int": 334
+        }
+      },
+      "bst": {
+        "lv1": 82,
+        "lv40": 724,
+        "lv99": 2306
+      },
+      "grades_lv40": {
+        "hp": "B",
+        "ap": "C",
+        "pwr": "B",
+        "def": "S",
+        "agl": "D",
+        "int": "C"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Heal",
+          "ability_id": 70,
+          "category": "healing"
+        },
+        {
+          "level": 5,
+          "skill": "Protect",
+          "ability_id": 82,
+          "category": "assist"
+        },
+        {
+          "level": 9,
+          "skill": "Purify",
+          "ability_id": 75,
+          "category": "healing"
+        },
+        {
+          "level": 14,
+          "skill": "Shield",
+          "ability_id": 83,
+          "category": "assist"
+        },
+        {
+          "level": 18,
+          "skill": "Kyrie",
+          "ability_id": 105,
+          "category": "attack"
+        },
+        {
+          "level": 22,
+          "skill": "Rejuvenate",
+          "ability_id": 71,
+          "category": "healing"
+        },
+        {
+          "level": 26,
+          "skill": "Barrier",
+          "ability_id": 86,
+          "category": "assist"
+        },
+        {
+          "level": 30,
+          "skill": "Raise Dead",
+          "ability_id": 76,
+          "category": "healing"
+        },
+        {
+          "level": 34,
+          "skill": "Vitalize",
+          "ability_id": 73,
+          "category": "healing"
+        },
+        {
+          "level": 38,
+          "skill": "Resurrect",
+          "ability_id": 77,
+          "category": "healing"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 26,
+            "ap": 10,
+            "pwr": 14,
+            "def": 15,
+            "agl": 6,
+            "int": 11
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 41,
+            "ap": 18,
+            "pwr": 23,
+            "def": 24,
+            "agl": 8,
+            "int": 18
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 75,
+            "ap": 36,
+            "pwr": 44,
+            "def": 44,
+            "agl": 12,
+            "int": 35
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 41,
+            "ap": 18,
+            "pwr": 23,
+            "def": 24,
+            "agl": 8,
+            "int": 18
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 62,
+            "ap": 29,
+            "pwr": 36,
+            "def": 36,
+            "agl": 11,
+            "int": 28
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 26,
+            "ap": 10,
+            "pwr": 14,
+            "def": 15,
+            "agl": 6,
+            "int": 11
+          }
+        }
+      }
+    },
+    {
+      "id": "tempest",
+      "name": "Tempest",
+      "role": "Storm Striker",
+      "description": "High-Agility wind and lightning specialist who dictates turn order and clears waves.",
+      "curve": "frontloaded",
+      "weapons": [
+        "daggers",
+        "staves"
+      ],
+      "equipment": [
+        "light_armor",
+        "robes",
+        "bracers",
+        "headgear",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 3.3,
+        "ap": 3.4,
+        "pwr": 2.0,
+        "def": 1.6,
+        "agl": 1.1,
+        "int": 2.7
+      },
+      "totals": {
+        "lv1": {
+          "hp": 18,
+          "ap": 16,
+          "pwr": 11,
+          "def": 9,
+          "agl": 15,
+          "int": 15
+        },
+        "lv40": {
+          "hp": 182,
+          "ap": 185,
+          "pwr": 110,
+          "def": 88,
+          "agl": 70,
+          "int": 149
+        },
+        "lv99": {
+          "hp": 341,
+          "ap": 349,
+          "pwr": 207,
+          "def": 166,
+          "agl": 123,
+          "int": 280
+        }
+      },
+      "bst": {
+        "lv1": 84,
+        "lv40": 784,
+        "lv99": 1466
+      },
+      "grades_lv40": {
+        "hp": "C",
+        "ap": "A",
+        "pwr": "C",
+        "def": "C",
+        "agl": "S",
+        "int": "A"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Cyclone",
+          "ability_id": 100,
+          "category": "attack"
+        },
+        {
+          "level": 4,
+          "skill": "Jolt",
+          "ability_id": 97,
+          "category": "attack"
+        },
+        {
+          "level": 8,
+          "skill": "Speed",
+          "ability_id": 84,
+          "category": "assist"
+        },
+        {
+          "level": 11,
+          "skill": "Simoon",
+          "ability_id": 103,
+          "category": "attack"
+        },
+        {
+          "level": 15,
+          "skill": "Slow",
+          "ability_id": 88,
+          "category": "assist"
+        },
+        {
+          "level": 18,
+          "skill": "Typhoon",
+          "ability_id": 101,
+          "category": "attack"
+        },
+        {
+          "level": 22,
+          "skill": "Lightning",
+          "ability_id": 98,
+          "category": "attack"
+        },
+        {
+          "level": 29,
+          "skill": "Sirocco",
+          "ability_id": 104,
+          "category": "attack"
+        },
+        {
+          "level": 35,
+          "skill": "Myollnir",
+          "ability_id": 99,
+          "category": "attack"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 18,
+            "ap": 16,
+            "pwr": 11,
+            "def": 9,
+            "agl": 15,
+            "int": 15
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 37,
+            "ap": 36,
+            "pwr": 22,
+            "def": 18,
+            "agl": 21,
+            "int": 31
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 73,
+            "ap": 73,
+            "pwr": 45,
+            "def": 36,
+            "agl": 33,
+            "int": 60
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 37,
+            "ap": 36,
+            "pwr": 22,
+            "def": 18,
+            "agl": 21,
+            "int": 31
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 60,
+            "ap": 59,
+            "pwr": 36,
+            "def": 29,
+            "agl": 29,
+            "int": 49
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 18,
+            "ap": 16,
+            "pwr": 11,
+            "def": 9,
+            "agl": 15,
+            "int": 15
+          }
+        }
+      }
+    },
+    {
+      "id": "dragoon",
+      "name": "Dragoon",
+      "role": "Dragon Slayer",
+      "description": "Starts lean but blooms into an endgame juggernaut of polearms, breaths, and cataclysmic magic.",
+      "curve": "late_bloomer",
+      "weapons": [
+        "spears",
+        "swords"
+      ],
+      "equipment": [
+        "heavy_armor",
+        "medium_armor",
+        "shields",
+        "helms",
+        "all_accessories"
+      ],
+      "growth_per_level": {
+        "hp": 6.4,
+        "ap": 3.2,
+        "pwr": 4.9,
+        "def": 3.2,
+        "agl": 1.3,
+        "int": 3.4
+      },
+      "totals": {
+        "lv1": {
+          "hp": 23,
+          "ap": 9,
+          "pwr": 15,
+          "def": 11,
+          "agl": 10,
+          "int": 10
+        },
+        "lv40": {
+          "hp": 204,
+          "ap": 100,
+          "pwr": 154,
+          "def": 102,
+          "agl": 47,
+          "int": 106
+        },
+        "lv99": {
+          "hp": 650,
+          "ap": 323,
+          "pwr": 495,
+          "def": 325,
+          "agl": 137,
+          "int": 343
+        }
+      },
+      "bst": {
+        "lv1": 78,
+        "lv40": 713,
+        "lv99": 2273
+      },
+      "grades_lv40": {
+        "hp": "C",
+        "ap": "C",
+        "pwr": "A",
+        "def": "B",
+        "agl": "B",
+        "int": "C"
+      },
+      "spells": [
+        {
+          "level": 1,
+          "skill": "Pyrokinesis",
+          "ability_id": 155,
+          "category": "attack"
+        },
+        {
+          "level": 8,
+          "skill": "Gambit",
+          "ability_id": 2,
+          "category": "attack"
+        },
+        {
+          "level": 14,
+          "skill": "Might",
+          "ability_id": 85,
+          "category": "assist"
+        },
+        {
+          "level": 19,
+          "skill": "Firebreath",
+          "ability_id": 46,
+          "category": "attack"
+        },
+        {
+          "level": 23,
+          "skill": "Icebreath",
+          "ability_id": 47,
+          "category": "attack"
+        },
+        {
+          "level": 27,
+          "skill": "Quake",
+          "ability_id": 102,
+          "category": "attack"
+        },
+        {
+          "level": 31,
+          "skill": "Fire Whip",
+          "ability_id": 114,
+          "category": "attack"
+        },
+        {
+          "level": 35,
+          "skill": "Inferno",
+          "ability_id": 93,
+          "category": "attack"
+        },
+        {
+          "level": 39,
+          "skill": "Ragnarok",
+          "ability_id": 110,
+          "category": "attack"
+        }
+      ],
+      "join_previews": {
+        "ryu": {
+          "join_level": 1,
+          "stats": {
+            "hp": 23,
+            "ap": 9,
+            "pwr": 15,
+            "def": 11,
+            "agl": 10,
+            "int": 10
+          }
+        },
+        "nina": {
+          "join_level": 5,
+          "stats": {
+            "hp": 37,
+            "ap": 16,
+            "pwr": 26,
+            "def": 18,
+            "agl": 13,
+            "int": 18
+          }
+        },
+        "garr": {
+          "join_level": 13,
+          "stats": {
+            "hp": 69,
+            "ap": 32,
+            "pwr": 50,
+            "def": 34,
+            "agl": 19,
+            "int": 35
+          }
+        },
+        "rei": {
+          "join_level": 5,
+          "stats": {
+            "hp": 37,
+            "ap": 16,
+            "pwr": 26,
+            "def": 18,
+            "agl": 13,
+            "int": 18
+          }
+        },
+        "momo": {
+          "join_level": 10,
+          "stats": {
+            "hp": 57,
+            "ap": 26,
+            "pwr": 41,
+            "def": 28,
+            "agl": 17,
+            "int": 28
+          }
+        },
+        "peco": {
+          "join_level": 1,
+          "stats": {
+            "hp": 23,
+            "ap": 9,
+            "pwr": 15,
+            "def": 11,
+            "agl": 10,
+            "int": 10
+          }
+        }
+      }
+    }
+  ]
+}
