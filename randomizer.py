@@ -43,7 +43,7 @@ from sys import argv
 from traceback import format_exc
 
 
-VERSION = '3.2-ab3'
+VERSION = '1.0'
 ALL_OBJECTS = None
 CLASS_SPOILER_TEXT = None
 CLASS_ASSIGNMENTS = None
