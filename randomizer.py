@@ -10,6 +10,8 @@ from randomtools.interface import (
 from genepool.class_assigner import (
     assign_archetypes, assign_vanilla_role_swap,
     format_archetype_spoiler, format_vanilla_swap_spoiler)
+from genepool.companion_wiki import (
+    export_companion_wiki_run, open_companion_wiki)
 from genepool.genes import (
     apply_gene_assignments, assign_dragon_genes,
     assignments_from_gene_objects, format_genes_spoiler,
@@ -44,8 +46,10 @@ from traceback import format_exc
 VERSION = '3.2-ab3'
 ALL_OBJECTS = None
 CLASS_SPOILER_TEXT = None
+CLASS_ASSIGNMENTS = None
 _CLASS_MODE_APPLIED = False
 MASTER_SPOILER_TEXT = None
+MASTER_ASSIGNMENTS = None
 _MASTER_KITS_APPLIED = False
 _GENES_APPLIED = False
 SHARE_STRING = None
@@ -68,7 +72,7 @@ def get_active_class_mode():
 
 
 def apply_curated_master_kits():
-    global MASTER_SPOILER_TEXT, _MASTER_KITS_APPLIED
+    global MASTER_SPOILER_TEXT, MASTER_ASSIGNMENTS, _MASTER_KITS_APPLIED
     if _MASTER_KITS_APPLIED:
         return
     if not get_run_options().master_kits:
@@ -88,6 +92,7 @@ def apply_curated_master_kits():
         master_skills_cls=MasterSkillsObject,
         ability_cls=AbilityObject,
     )
+    MASTER_ASSIGNMENTS = assignments
     MASTER_SPOILER_TEXT = format_master_kits_spoiler(assignments)
     _MASTER_KITS_APPLIED = True
 
@@ -106,7 +111,7 @@ def apply_tiered_dragon_genes():
 
 
 def apply_curated_class_mode():
-    global CLASS_SPOILER_TEXT, _CLASS_MODE_APPLIED
+    global CLASS_SPOILER_TEXT, CLASS_ASSIGNMENTS, _CLASS_MODE_APPLIED
     if _CLASS_MODE_APPLIED:
         return
     mode = get_active_class_mode()
@@ -126,6 +131,7 @@ def apply_curated_class_mode():
             accessory_cls=AccessoryObject,
             apply_equipment_permissions=True,
         )
+        CLASS_ASSIGNMENTS = assignments
         CLASS_SPOILER_TEXT = format_archetype_spoiler(assignments)
     elif mode == 'roleswap':
         snapshots = capture_vanilla_snapshots(BaseStatsObject, AbilityObject)
@@ -138,6 +144,7 @@ def apply_curated_class_mode():
             accessory_cls=AccessoryObject,
             apply_equipment_permissions=True,
         )
+        CLASS_ASSIGNMENTS = assignments
         CLASS_SPOILER_TEXT = format_vanilla_swap_spoiler(assignments)
     _CLASS_MODE_APPLIED = True
 
@@ -2311,6 +2318,67 @@ def write_spoiler(all_objects):
     f.close()
 
 
+def export_wiki_manifest():
+    opts = get_run_options()
+    share_str = SHARE_STRING or format_share_string(
+        opts,
+        flags=get_flags(),
+        seed=get_seed(),
+        random_degree=get_random_degree()**0.5,
+        difficulty=get_difficulty(),
+        presets=PRESETS,
+    )
+    preset_name = PRESETS[opts.preset].name if opts.preset is not None else None
+    tables = {
+        'base_stats': BaseStatsObject.every,
+        'levels': LevelObject.every,
+        'master_stats': MasterStatsObject.every,
+        'master_skills': MasterSkillsObject.every,
+        'genes': GeneObject.every,
+        'monsters': MonsterObject.every,
+        'abilities': AbilityObject.every,
+        'weapons': WeaponObject.every,
+        'armors': ArmorObject.every,
+        'accessories': AccessoryObject.every,
+        'items': ItemObject.every,
+        'key_items': KeyItemObject.every,
+        'shops': ShopObject.every,
+        'manillo_stocks': ManilloStockObject.every,
+        'manillo_items': ManilloItemObject.every,
+        'chests': ChestObject.every,
+    }
+    equip_catalog = load_equipment_categories()
+    configs = {
+        'dragon_genes': DRAGON_GENES_CONFIG,
+        'master_kits': MASTER_KITS_CONFIG,
+        'encounter_tiers': ENCOUNTER_TIERS,
+        'weapon_access': WEAPON_ACCESS_CONFIG,
+        'equipment_catalog': equip_catalog,
+        'classes': load_classes(equipment_catalog=equip_catalog),
+        'tblpath': tblpath,
+    }
+    assignments = {
+        'classes': CLASS_ASSIGNMENTS,
+        'masters': MASTER_ASSIGNMENTS,
+    }
+    return export_companion_wiki_run(
+        seed=get_seed(),
+        version=VERSION,
+        rom_version=get_global_label(),
+        flags=get_flags(),
+        share_string=share_str,
+        options=opts,
+        preset_name=preset_name,
+        random_degree=get_random_degree()**0.5,
+        difficulty=get_difficulty(),
+        activated_codes=get_activated_codes(),
+        tables=tables,
+        configs=configs,
+        assignments=assignments,
+        guardrail_report=GUARDRAIL_REPORT,
+    )
+
+
 def write_cue_file():
     filename = get_outfile()
     cue_filename = '.'.join(filename.split('.')[:-1] + ['cue'])
@@ -2546,7 +2614,13 @@ if __name__ == '__main__':
         clean_and_write(ALL_OBJECTS)
 
         write_spoiler(ALL_OBJECTS)
+        _wiki_export = export_wiki_manifest()
         write_cue_file()
+
+        print('SEED MANIFEST: %s' % _wiki_export.manifest_json_path.resolve())
+        print('COMPANION WIKI: %s' % _wiki_export.wiki_html_path.resolve())
+        if _resolved_opts.open_wiki:
+            open_companion_wiki(_wiki_export.wiki_html_path)
 
         finish_interface()
 
