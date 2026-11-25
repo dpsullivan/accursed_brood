@@ -137,6 +137,24 @@ class TestOptionsAndRewards(unittest.TestCase):
                             a, b, f"{code_a}: shorter alias {a!r} precedes {b!r}"
                         )
 
+    def test_open_wiki_flag_defaults_off_and_parses_cleanly(self) -> None:
+        default_opts, rem = extract_cli_options(["randomizer.py", "rom.bin", "--preset", "standard"])
+        self.assertFalse(default_opts.open_wiki)
+        self.assertEqual(rem, ["randomizer.py", "rom.bin"])
+        self.assertFalse(resolve_options(default_opts, []).open_wiki)
+
+        enabled_opts, rem2 = extract_cli_options(
+            ["randomizer.py", "rom.bin", "--preset", "standard", "--open-wiki", "--seed", "424242"]
+        )
+        self.assertTrue(enabled_opts.open_wiki)
+        self.assertEqual(enabled_opts.preset, "standard")
+        self.assertEqual(enabled_opts.seed_override, 424242)
+        self.assertEqual(rem2, ["randomizer.py", "rom.bin"])
+        self.assertTrue(resolve_options(enabled_opts, []).open_wiki)
+
+        toggled_off, _ = extract_cli_options(["randomizer.py", "--open-wiki", "--no-open-wiki"])
+        self.assertFalse(toggled_off.open_wiki)
+
 
 if __name__ == "__main__":
     unittest.main()

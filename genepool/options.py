@@ -91,6 +91,7 @@ class RunOptions:
     seed_override: Optional[int] = None
     randomness_override: Optional[float] = None
     difficulty_override: Optional[float] = None
+    open_wiki: bool = False
     _exp_explicit: bool = False
     _zenny_explicit: bool = False
     _drop_explicit: bool = False
@@ -156,6 +157,7 @@ def extract_cli_options(
     seed_override: Optional[int] = None
     randomness_override: Optional[float] = None
     difficulty_override: Optional[float] = None
+    open_wiki = False
 
     exp_explicit = False
     zenny_explicit = False
@@ -252,6 +254,10 @@ def extract_cli_options(
         elif key == "--no-crash-guard":
             crash_guard = False
             crash_guard_explicit = True
+        elif key == "--open-wiki":
+            open_wiki = True
+        elif key == "--no-open-wiki":
+            open_wiki = False
         else:
             remaining.append(token)
         i += 1
@@ -272,6 +278,7 @@ def extract_cli_options(
             seed_override=seed_override,
             randomness_override=randomness_override,
             difficulty_override=difficulty_override,
+            open_wiki=open_wiki,
             _exp_explicit=exp_explicit,
             _zenny_explicit=zenny_explicit,
             _drop_explicit=drop_explicit,
@@ -392,6 +399,7 @@ def resolve_options(
         seed_override=cli_options.seed_override,
         randomness_override=cli_options.randomness_override,
         difficulty_override=cli_options.difficulty_override,
+        open_wiki=cli_options.open_wiki,
         _exp_explicit=cli_options._exp_explicit,
         _zenny_explicit=cli_options._zenny_explicit,
         _drop_explicit=cli_options._drop_explicit,
